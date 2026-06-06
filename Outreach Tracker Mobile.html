@@ -1,0 +1,1137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover"/>
+<meta name="mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<meta name="apple-mobile-web-app-status-bar-style" content="default"/>
+<meta name="apple-mobile-web-app-title" content="Outreach"/>
+<meta name="theme-color" content="#B8973A"/>
+<title>Outreach Tracker</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
+:root{
+  --bg:#FAFAF8;--bgAlt:#F5F4F1;--surface:#FFFFFF;
+  --border:#E2DFD8;--borderDark:#C8C4BC;
+  --text:#1A1A1A;--textMid:#444444;--textMuted:#777777;
+  --gold:#B8973A;--goldBg:#FAF6EC;--goldBorder:#E8D9A0;
+  --teal:#1A6A7A;--tealBg:#F0F8FA;--tealBorder:#A8D4DC;
+  --purple:#5B3A8A;--purpleBg:#F6F3FB;--purpleBorder:#C9B8EF;
+  --green:#1A7A4E;--greenBg:#F0FAF5;--greenBorder:#9DE0BC;
+  --red:#C0392B;--redBg:#FDF3F2;--redBorder:#F0BABA;
+  --safe-bottom: env(safe-area-inset-bottom, 0px);
+  --safe-top: env(safe-area-inset-top, 0px);
+  --nav-h: 64px;
+  --hdr-h: 56px;
+}
+
+html,body{height:100%;overflow:hidden}
+body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI',system-ui,sans-serif;font-size:15px;line-height:1.5;overscroll-behavior:none}
+::-webkit-scrollbar{display:none}
+
+/* ── INSTALL BANNER ── */
+#install-banner{background:var(--gold);color:#fff;padding:10px 16px;display:flex;align-items:center;justify-content:space-between;gap:10px;font-size:13px;font-weight:500;position:fixed;top:0;left:0;right:0;z-index:999;padding-top:calc(10px + var(--safe-top))}
+#install-banner.hidden{display:none}
+#install-banner button{background:rgba(255,255,255,.25);border:1px solid rgba(255,255,255,.5);border-radius:20px;color:#fff;padding:5px 13px;font-size:12px;font-weight:600;cursor:pointer;white-space:nowrap}
+#install-banner .dismiss{background:none;border:none;color:rgba(255,255,255,.7);font-size:18px;padding:0 4px;cursor:pointer}
+
+/* ── APP SHELL ── */
+#app{display:flex;flex-direction:column;height:100%;padding-top:var(--safe-top)}
+#app.banner-shown{padding-top:calc(var(--safe-top) + 44px)}
+
+/* ── HEADER ── */
+.app-hdr{background:var(--surface);border-bottom:1px solid var(--border);box-shadow:0 1px 4px rgba(0,0,0,.06);height:var(--hdr-h);display:flex;align-items:center;padding:0 16px;flex-shrink:0;position:relative}
+.hdr-logo{display:flex;align-items:center;gap:9px;flex:1}
+.hdr-mark{width:30px;height:30px;background:var(--gold);border-radius:8px;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:700;color:#fff;letter-spacing:-.5px;flex-shrink:0}
+.hdr-title{font-family:'Georgia',serif;font-size:17px;font-weight:700;color:var(--text)}
+.hdr-sub{font-size:10px;color:var(--textMuted);display:block;line-height:1.2;letter-spacing:.03em}
+.hdr-btn{width:36px;height:36px;border-radius:8px;border:1px solid var(--border);background:var(--surface);display:flex;align-items:center;justify-content:center;cursor:pointer;font-size:16px;color:var(--textMid);flex-shrink:0}
+.hdr-btn:active{background:var(--bgAlt)}
+
+/* ── SCROLL AREA ── */
+.scroll-area{flex:1;overflow-y:auto;-webkit-overflow-scrolling:touch;overscroll-behavior-y:contain}
+
+/* ── BOTTOM NAV ── */
+.bottom-nav{background:var(--surface);border-top:1px solid var(--border);height:calc(var(--nav-h) + var(--safe-bottom));padding-bottom:var(--safe-bottom);display:flex;flex-shrink:0}
+.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:3px;cursor:pointer;border:none;background:transparent;color:var(--textMuted);transition:color .15s;padding-top:8px}
+.nav-item.active{color:var(--gold)}
+.nav-item:active{background:var(--bgAlt)}
+.nav-icon{font-size:22px;line-height:1}
+.nav-label{font-size:9px;font-weight:600;letter-spacing:.06em;text-transform:uppercase;line-height:1}
+
+/* ── SCREENS ── */
+.screen{display:none;padding:16px 16px 24px}
+.screen.active{display:block}
+
+/* ── TODAY SCREEN ── */
+.today-date{font-size:12px;color:var(--textMuted);letter-spacing:.06em;text-transform:uppercase;margin-bottom:4px}
+.today-greeting{font-family:'Georgia',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:18px;line-height:1.2}
+
+/* stat strip */
+.stat-strip{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:20px}
+.stat-tile{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:12px 8px;text-align:center;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.stat-tile-val{font-family:'Georgia',serif;font-size:24px;font-weight:700;color:var(--gold);line-height:1}
+.stat-tile-lbl{font-size:9px;color:var(--textMuted);letter-spacing:.06em;text-transform:uppercase;margin-top:3px}
+
+/* daily log quick-add */
+.quick-add-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:10px;padding:16px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.qa-title{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:12px}
+.qa-counters{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:12px}
+.qa-counter{background:var(--bgAlt);border-radius:8px;padding:10px;display:flex;align-items:center;justify-content:space-between}
+.qa-counter-label{font-size:12px;color:var(--textMid);font-weight:500}
+.counter-ctrl{display:flex;align-items:center;gap:0}
+.ctr-btn{width:34px;height:34px;border-radius:7px;border:1px solid var(--border);background:var(--surface);font-size:18px;color:var(--textMid);cursor:pointer;display:flex;align-items:center;justify-content:center;flex-shrink:0;line-height:1}
+.ctr-btn:active{background:var(--goldBg);border-color:var(--gold);color:var(--gold)}
+.ctr-val{width:36px;text-align:center;font-size:18px;font-weight:700;color:var(--text);font-family:'Georgia',serif}
+
+/* log button */
+.log-btn{width:100%;background:var(--gold);color:#fff;border:none;border-radius:8px;padding:13px;font-size:15px;font-weight:600;cursor:pointer;letter-spacing:.02em;transition:background .15s}
+.log-btn:active{background:#A07D2F}
+.log-btn.secondary{background:var(--goldBg);color:var(--gold);border:1px solid var(--goldBorder)}
+
+/* today log history */
+.log-history{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:10px;padding:14px 16px;margin-bottom:16px}
+.log-history-title{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:10px}
+.log-entry{display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px solid var(--border)}
+.log-entry:last-child{border-bottom:none}
+.log-entry-time{font-size:11px;color:var(--textMuted);width:40px;flex-shrink:0;letter-spacing:.03em}
+.log-entry-body{flex:1}
+.log-entry-chips{display:flex;gap:5px;flex-wrap:wrap;margin-top:3px}
+.log-chip{font-size:10px;padding:2px 8px;border-radius:20px;font-weight:500}
+.lc-sent{background:var(--tealBg);color:var(--teal)}
+.lc-replied{background:var(--goldBg);color:var(--gold)}
+.lc-booked{background:var(--greenBg);color:var(--green)}
+.log-entry-del{color:var(--textMuted);background:none;border:none;font-size:18px;cursor:pointer;padding:0 4px;flex-shrink:0}
+
+/* streak */
+.streak-card{background:linear-gradient(135deg,#1A1A1A,#2A2A2A);border-radius:10px;padding:14px 16px;margin-bottom:16px;display:flex;align-items:center;justify-content:space-between}
+.streak-left{}
+.streak-num{font-family:'Georgia',serif;font-size:32px;font-weight:700;color:var(--gold);line-height:1}
+.streak-label{font-size:11px;color:rgba(255,255,255,.5);letter-spacing:.08em;text-transform:uppercase;margin-top:2px}
+.streak-right{font-size:36px}
+
+/* ── CONTACTS SCREEN ── */
+.search-bar{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:10px 14px;display:flex;align-items:center;gap:10px;margin-bottom:14px}
+.search-bar input{flex:1;border:none;background:transparent;font-size:15px;color:var(--text);outline:none;font-family:inherit}
+.search-bar input::placeholder{color:var(--textMuted)}
+.search-icon{font-size:16px;color:var(--textMuted);flex-shrink:0}
+
+.filter-scroll{display:flex;gap:7px;overflow-x:auto;padding-bottom:8px;margin-bottom:14px;-webkit-overflow-scrolling:touch}
+.filter-scroll::-webkit-scrollbar{display:none}
+.filter-chip{border:1px solid var(--border);border-radius:20px;padding:6px 14px;font-size:12px;font-weight:500;white-space:nowrap;cursor:pointer;background:var(--surface);color:var(--textMid);transition:all .15s;flex-shrink:0}
+.filter-chip.active-gold{background:var(--goldBg);border-color:var(--gold);color:var(--gold);font-weight:600}
+.filter-chip.active-teal{background:var(--tealBg);border-color:var(--teal);color:var(--teal);font-weight:600}
+.filter-chip.active-green{background:var(--greenBg);border-color:var(--green);color:var(--green);font-weight:600}
+.filter-chip.active-red{background:var(--redBg);border-color:var(--red);color:var(--red);font-weight:600}
+
+.contact-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04);cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:12px}
+.contact-card:active{background:var(--bgAlt);transform:scale(.99)}
+.contact-avatar{width:42px;height:42px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:16px;font-weight:700;color:#fff;flex-shrink:0;font-family:'Georgia',serif}
+.contact-info{flex:1;min-width:0}
+.contact-name{font-size:15px;font-weight:600;color:var(--text);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.contact-meta{font-size:12px;color:var(--textMuted);margin-top:1px}
+.contact-status-badge{font-size:10px;font-weight:600;padding:3px 9px;border-radius:20px;white-space:nowrap;flex-shrink:0;letter-spacing:.03em}
+
+.fab{position:fixed;bottom:calc(var(--nav-h) + var(--safe-bottom) + 16px);right:16px;width:52px;height:52px;background:var(--gold);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:26px;color:#fff;box-shadow:0 4px 14px rgba(184,151,58,.45);cursor:pointer;border:none;z-index:50;transition:transform .15s}
+.fab:active{transform:scale(.94)}
+
+/* ── FUNNEL SCREEN ── */
+.funnel-card{background:var(--surface);border:1px solid var(--border);border-radius:10px;padding:16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.funnel-title{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:14px}
+.funnel-stage{display:flex;align-items:center;gap:10px;margin-bottom:10px}
+.fs-label{font-size:12px;color:var(--textMid);width:110px;flex-shrink:0;font-weight:500}
+.fs-bar-wrap{flex:1;background:var(--bgAlt);border-radius:20px;height:26px;overflow:hidden}
+.fs-bar{height:100%;border-radius:20px;display:flex;align-items:center;padding-left:10px;font-size:11px;font-weight:700;color:#fff;transition:width .5s ease;min-width:32px}
+.fs-val{font-size:12px;color:var(--textMuted);width:28px;text-align:right;flex-shrink:0;font-weight:600}
+.fs-pct{font-size:10px;color:var(--textMuted);width:34px;text-align:right;flex-shrink:0}
+
+.week-tbl{width:100%;border-collapse:collapse;font-size:13px}
+.week-tbl th{font-size:9px;letter-spacing:.1em;text-transform:uppercase;color:var(--textMuted);padding:6px 8px;border-bottom:1px solid var(--border);text-align:right;font-weight:500}
+.week-tbl th:first-child{text-align:left}
+.week-tbl td{padding:8px;border-bottom:1px solid var(--border);color:var(--textMid);text-align:right;font-size:13px}
+.week-tbl td:first-child{text-align:left;font-weight:500;color:var(--text)}
+.week-tbl tr:last-child td{border-bottom:none}
+.week-tbl input{border:none;background:transparent;text-align:right;width:100%;font-size:13px;color:var(--text);font-family:inherit;outline:none;padding:0}
+.week-tbl input:focus{color:var(--gold)}
+
+/* ── MODAL / SHEET ── */
+.sheet-overlay{position:fixed;inset:0;background:rgba(0,0,0,.45);z-index:200;opacity:0;transition:opacity .2s;pointer-events:none}
+.sheet-overlay.open{opacity:1;pointer-events:all}
+.sheet{position:fixed;bottom:0;left:0;right:0;background:var(--surface);border-radius:18px 18px 0 0;z-index:201;transform:translateY(100%);transition:transform .3s cubic-bezier(.32,.72,0,1);max-height:92vh;display:flex;flex-direction:column;padding-bottom:var(--safe-bottom)}
+.sheet.open{transform:translateY(0)}
+.sheet-handle{width:36px;height:4px;background:var(--borderDark);border-radius:2px;margin:10px auto 0}
+.sheet-header{padding:12px 20px 14px;border-bottom:1px solid var(--border);flex-shrink:0;display:flex;align-items:center;justify-content:space-between}
+.sheet-title{font-family:'Georgia',serif;font-size:18px;font-weight:700;color:var(--text)}
+.sheet-close{width:30px;height:30px;border-radius:50%;background:var(--bgAlt);border:none;font-size:16px;color:var(--textMid);cursor:pointer;display:flex;align-items:center;justify-content:center}
+.sheet-body{overflow-y:auto;padding:16px 20px 24px;-webkit-overflow-scrolling:touch;flex:1}
+
+/* sheet form */
+.sf-label{font-size:10px;font-weight:600;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);margin-bottom:5px;display:block}
+.sf-input{width:100%;border:1px solid var(--border);border-radius:8px;padding:12px 14px;font-size:16px;background:var(--bg);color:var(--text);font-family:inherit;outline:none;margin-bottom:14px;transition:border-color .15s;-webkit-appearance:none}
+.sf-input:focus{border-color:var(--gold)}
+.sf-input::placeholder{color:var(--textMuted)}
+.sf-textarea{resize:none;height:80px}
+.sf-row{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* status grid */
+.status-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:14px}
+.status-option{border:1px solid var(--border);border-radius:8px;padding:10px 12px;cursor:pointer;transition:all .15s;display:flex;align-items:center;gap:8px;font-size:13px;font-weight:500}
+.status-option:active{transform:scale(.98)}
+.status-option.selected{font-weight:600}
+.status-dot{width:8px;height:8px;border-radius:50%;flex-shrink:0}
+
+/* tier selector */
+.tier-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:8px;margin-bottom:14px}
+.tier-option{border:1px solid var(--border);border-radius:8px;padding:10px 6px;cursor:pointer;transition:all .15s;text-align:center;font-size:12px;font-weight:500}
+.tier-option.selected{border-color:var(--gold);background:var(--goldBg);color:var(--gold);font-weight:700}
+
+/* ── SETTINGS SCREEN ── */
+.settings-section{margin-bottom:20px}
+.settings-title{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--textMuted);margin-bottom:10px;padding:0 4px}
+.settings-row{background:var(--surface);border:1px solid var(--border);border-radius:10px;overflow:hidden;margin-bottom:0}
+.settings-item{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);gap:12px}
+.settings-item:last-child{border-bottom:none}
+.settings-item-label{font-size:14px;color:var(--text);font-weight:500}
+.settings-item-sub{font-size:12px;color:var(--textMuted);margin-top:1px}
+.settings-item-right{flex-shrink:0}
+.settings-item input[type=text],.settings-item input[type=number]{border:1px solid var(--border);border-radius:6px;padding:6px 10px;font-size:14px;color:var(--text);background:var(--bg);font-family:inherit;outline:none;width:100px;text-align:right}
+.settings-item input:focus{border-color:var(--gold)}
+.settings-item textarea{border:1px solid var(--border);border-radius:6px;padding:8px 10px;font-size:13px;color:var(--text);background:var(--bg);font-family:inherit;outline:none;width:180px;height:60px;resize:none}
+.settings-item textarea:focus{border-color:var(--gold)}
+.toggle{width:44px;height:26px;background:var(--borderDark);border-radius:13px;position:relative;cursor:pointer;transition:background .2s;flex-shrink:0}
+.toggle.on{background:var(--gold)}
+.toggle::after{content:'';position:absolute;width:20px;height:20px;background:#fff;border-radius:50%;top:3px;left:3px;transition:transform .2s;box-shadow:0 1px 3px rgba(0,0,0,.2)}
+.toggle.on::after{transform:translateX(18px)}
+
+/* ── INSTALL GUIDE ── */
+.install-steps{background:var(--goldBg);border:1px solid var(--goldBorder);border-radius:10px;padding:16px;margin-bottom:16px}
+.install-steps-title{font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.install-step{display:flex;gap:10px;margin-bottom:8px;font-size:13px;color:var(--textMid);align-items:flex-start}
+.install-step-num{width:20px;height:20px;background:var(--gold);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;flex-shrink:0;margin-top:1px}
+
+/* ── UTILITY ── */
+.empty-state{padding:40px 20px;text-align:center;color:var(--textMuted)}
+.empty-icon{font-size:36px;margin-bottom:10px}
+.empty-text{font-size:14px;line-height:1.6}
+.divider{height:1px;background:var(--border);margin:14px 0}
+.mt-8{margin-top:8px}
+.mb-16{margin-bottom:16px}
+
+/* ── TOAST ── */
+#toast{position:fixed;bottom:calc(var(--nav-h) + var(--safe-bottom) + 12px);left:50%;transform:translateX(-50%) translateY(20px);background:#1A1A1A;color:#fff;padding:10px 20px;border-radius:20px;font-size:13px;font-weight:500;z-index:500;opacity:0;transition:all .25s;pointer-events:none;white-space:nowrap}
+#toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+
+/* prevent zoom on input focus */
+input,select,textarea{font-size:16px !important}
+.filter-chip,.nav-label,.qa-counter-label,.stat-tile-lbl,.contact-meta,.log-entry-time,.sheet-close,.fs-pct,.fs-val,.week-tbl th,.settings-title,.install-steps-title,.qa-title,.clabel,.streak-label,.today-date{font-size:unset}
+</style>
+</head>
+<body>
+
+<!-- INSTALL BANNER -->
+<div id="install-banner" class="hidden">
+  <span>📲 Add to Home Screen for the best experience</span>
+  <div style="display:flex;gap:8px;align-items:center">
+    <button id="install-btn" onclick="installApp()">Install</button>
+    <button class="dismiss" onclick="dismissBanner()">×</button>
+  </div>
+</div>
+
+<!-- APP SHELL -->
+<div id="app">
+
+  <!-- HEADER -->
+  <div class="app-hdr">
+    <div class="hdr-logo">
+      <div class="hdr-mark">ECP</div>
+      <div>
+        <span class="hdr-title" id="screen-title">Today</span>
+        <span class="hdr-sub">Outreach Tracker</span>
+      </div>
+    </div>
+    <button class="hdr-btn" id="hdr-action-btn" onclick="hdrAction()" title="Add">＋</button>
+  </div>
+
+  <!-- SCROLL AREA -->
+  <div class="scroll-area" id="scroll-area">
+
+    <!-- ══ TODAY SCREEN ══ -->
+    <div id="screen-today" class="screen active">
+      <div class="today-date" id="today-date-label"></div>
+      <div class="today-greeting" id="today-greeting">Good morning 👋</div>
+
+      <!-- stat strip -->
+      <div class="stat-strip">
+        <div class="stat-tile"><div class="stat-tile-val" id="st-total">0</div><div class="stat-tile-lbl">Total</div></div>
+        <div class="stat-tile"><div class="stat-tile-val" id="st-replied">0</div><div class="stat-tile-lbl">Replied</div></div>
+        <div class="stat-tile"><div class="stat-tile-val" id="st-booked">0</div><div class="stat-tile-lbl">Booked</div></div>
+        <div class="stat-tile"><div class="stat-tile-val" id="st-apps">0</div><div class="stat-tile-lbl">Applied</div></div>
+      </div>
+
+      <!-- streak -->
+      <div class="streak-card">
+        <div class="streak-left">
+          <div class="streak-num" id="streak-num">0</div>
+          <div class="streak-label">Day streak 🔥</div>
+        </div>
+        <div class="streak-right">🏆</div>
+      </div>
+
+      <!-- quick add -->
+      <div class="quick-add-card">
+        <div class="qa-title">Log Today's Activity</div>
+        <div class="qa-counters">
+          <div class="qa-counter">
+            <div class="qa-counter-label">📤 Sent</div>
+            <div class="counter-ctrl">
+              <button class="ctr-btn" onclick="ctrAdj('sent',-1)">−</button>
+              <div class="ctr-val" id="ctr-sent">0</div>
+              <button class="ctr-btn" onclick="ctrAdj('sent',1)">+</button>
+            </div>
+          </div>
+          <div class="qa-counter">
+            <div class="qa-counter-label">💬 Replies</div>
+            <div class="counter-ctrl">
+              <button class="ctr-btn" onclick="ctrAdj('replies',-1)">−</button>
+              <div class="ctr-val" id="ctr-replies">0</div>
+              <button class="ctr-btn" onclick="ctrAdj('replies',1)">+</button>
+            </div>
+          </div>
+          <div class="qa-counter">
+            <div class="qa-counter-label">📅 Booked</div>
+            <div class="counter-ctrl">
+              <button class="ctr-btn" onclick="ctrAdj('booked',-1)">−</button>
+              <div class="ctr-val" id="ctr-booked">0</div>
+              <button class="ctr-btn" onclick="ctrAdj('booked',1)">+</button>
+            </div>
+          </div>
+          <div class="qa-counter">
+            <div class="qa-counter-label">✅ Applied</div>
+            <div class="counter-ctrl">
+              <button class="ctr-btn" onclick="ctrAdj('applied',-1)">−</button>
+              <div class="ctr-val" id="ctr-applied">0</div>
+              <button class="ctr-btn" onclick="ctrAdj('applied',1)">+</button>
+            </div>
+          </div>
+        </div>
+        <div class="field" style="margin-bottom:10px">
+          <input class="sf-input" id="log-note" placeholder="Quick note (optional)..." style="margin-bottom:0;font-size:15px"/>
+        </div>
+        <button class="log-btn" onclick="logToday()">Log Activity</button>
+      </div>
+
+      <!-- today's log entries -->
+      <div class="log-history" id="today-log-section" style="display:none">
+        <div class="log-history-title">Today's Entries</div>
+        <div id="today-log-list"></div>
+      </div>
+
+      <!-- offer ref -->
+      <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:10px;padding:14px 16px;margin-bottom:16px">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Your Offer</div>
+        <div style="font-size:14px;font-weight:600;color:var(--text)" id="today-offer-name">—</div>
+        <div style="font-size:12px;color:var(--textMuted);margin-top:3px" id="today-offer-line"></div>
+      </div>
+    </div>
+
+    <!-- ══ CONTACTS SCREEN ══ -->
+    <div id="screen-contacts" class="screen">
+      <div class="search-bar">
+        <span class="search-icon">🔍</span>
+        <input id="contact-search" type="search" placeholder="Search contacts..." oninput="renderContacts()"/>
+      </div>
+      <div class="filter-scroll" id="filter-scroll">
+        <div class="filter-chip active-gold" onclick="setFilter('all',this)">All</div>
+        <div class="filter-chip" onclick="setFilter('not-contacted',this)">Not Contacted</div>
+        <div class="filter-chip" onclick="setFilter('contacted',this)">Contacted</div>
+        <div class="filter-chip" onclick="setFilter('replied',this)">Replied</div>
+        <div class="filter-chip" onclick="setFilter('lead-delivered',this)">Lead Sent</div>
+        <div class="filter-chip" onclick="setFilter('booked',this)">Booked ✓</div>
+        <div class="filter-chip" onclick="setFilter('applied',this)">Applied ✓</div>
+        <div class="filter-chip" onclick="setFilter('not-interested',this)">Not Interested</div>
+      </div>
+      <div id="contact-list-mobile"></div>
+
+      <!-- FAB -->
+      <button class="fab" id="contacts-fab" onclick="openAddContact()">＋</button>
+    </div>
+
+    <!-- ══ FUNNEL SCREEN ══ -->
+    <div id="screen-funnel" class="screen">
+
+      <!-- funnel visual -->
+      <div class="funnel-card">
+        <div class="funnel-title">Conversion Funnel</div>
+        <div id="mobile-funnel"></div>
+      </div>
+
+      <!-- weekly metrics -->
+      <div class="funnel-card">
+        <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+          <div class="funnel-title" style="margin-bottom:0">Weekly Metrics</div>
+          <button onclick="addWeekRow()" style="background:var(--goldBg);border:1px solid var(--goldBorder);border-radius:6px;color:var(--gold);font-size:12px;font-weight:600;padding:5px 11px;cursor:pointer">+ Week</button>
+        </div>
+        <div style="overflow-x:auto;-webkit-overflow-scrolling:touch">
+          <table class="week-tbl">
+            <thead><tr><th>Week</th><th>Sent</th><th>Replied</th><th>Booked</th><th>Applied</th><th>Revenue</th></tr></thead>
+            <tbody id="week-tbl-body"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- notes -->
+      <div class="funnel-card" style="border-left:3px solid var(--purple)">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);margin-bottom:12px">Patterns & Notes</div>
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--textMuted);margin-bottom:5px">What's working</div>
+        <textarea class="sf-input sf-textarea" id="note-working" placeholder="e.g. Personalized openers get 3x reply rate..." oninput="save()"></textarea>
+        <div style="font-size:10px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--textMuted);margin-bottom:5px">What to change</div>
+        <textarea class="sf-input sf-textarea" id="note-improve" placeholder="e.g. Need to follow up more consistently..." oninput="save()"></textarea>
+      </div>
+    </div>
+
+    <!-- ══ SETTINGS SCREEN ══ -->
+    <div id="screen-settings" class="screen">
+
+      <!-- install guide -->
+      <div class="install-steps">
+        <div class="install-steps-title">📲 Add to Home Screen</div>
+        <div style="font-size:12px;color:var(--textMid);margin-bottom:10px;font-weight:600">iPhone / Safari:</div>
+        <div class="install-step"><div class="install-step-num">1</div><div>Open this file in Safari (not Chrome)</div></div>
+        <div class="install-step"><div class="install-step-num">2</div><div>Tap the <strong>Share</strong> button (box with arrow up)</div></div>
+        <div class="install-step"><div class="install-step-num">3</div><div>Scroll down and tap <strong>"Add to Home Screen"</strong></div></div>
+        <div class="install-step"><div class="install-step-num">4</div><div>Tap <strong>Add</strong> — it appears on your home screen like a real app</div></div>
+        <div class="divider" style="margin:10px 0"></div>
+        <div style="font-size:12px;color:var(--textMid);margin-bottom:10px;font-weight:600">Android / Chrome:</div>
+        <div class="install-step"><div class="install-step-num">1</div><div>Tap the <strong>⋮ menu</strong> in Chrome</div></div>
+        <div class="install-step"><div class="install-step-num">2</div><div>Tap <strong>"Add to Home Screen"</strong></div></div>
+        <div class="install-step"><div class="install-step-num">3</div><div>Tap <strong>Add</strong></div></div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-title">Your Offer</div>
+        <div class="settings-row">
+          <div class="settings-item">
+            <div><div class="settings-item-label">Offer Name</div><div class="settings-item-sub">e.g. LifeProof Family Blueprint</div></div>
+            <div class="settings-item-right"><input type="text" id="set-offer-name" placeholder="Offer name" oninput="updateOffer()"/></div>
+          </div>
+          <div class="settings-item" style="flex-direction:column;align-items:flex-start;gap:6px">
+            <div class="settings-item-label">Offer Line</div>
+            <textarea class="sf-input sf-textarea" id="set-offer-line" placeholder="What you say to invite people..." oninput="updateOffer()" style="width:100%;margin-bottom:0;font-size:14px"></textarea>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-title">Daily Targets</div>
+        <div class="settings-row">
+          <div class="settings-item">
+            <div><div class="settings-item-label">Outreach / day</div></div>
+            <div class="settings-item-right"><input type="number" id="set-tgt-outreach" min="1" max="200" placeholder="10" oninput="save()"/></div>
+          </div>
+          <div class="settings-item">
+            <div><div class="settings-item-label">Calls booked / week</div></div>
+            <div class="settings-item-right"><input type="number" id="set-tgt-calls" min="1" max="50" placeholder="3" oninput="save()"/></div>
+          </div>
+          <div class="settings-item">
+            <div><div class="settings-item-label">Apps / month</div></div>
+            <div class="settings-item-right"><input type="number" id="set-tgt-apps" min="1" max="50" placeholder="4" oninput="save()"/></div>
+          </div>
+        </div>
+      </div>
+
+      <div class="settings-section">
+        <div class="settings-title">Data</div>
+        <div class="settings-row">
+          <div class="settings-item" onclick="exportData()" style="cursor:pointer">
+            <div><div class="settings-item-label">Export Data</div><div class="settings-item-sub">Download JSON backup</div></div>
+            <div class="settings-item-right" style="font-size:18px;color:var(--textMuted)">↓</div>
+          </div>
+          <div class="settings-item" onclick="importData()" style="cursor:pointer">
+            <div><div class="settings-item-label">Import Data</div><div class="settings-item-sub">Restore from JSON backup</div></div>
+            <div class="settings-item-right" style="font-size:18px;color:var(--textMuted)">↑</div>
+          </div>
+          <div class="settings-item" onclick="confirmReset()" style="cursor:pointer">
+            <div><div class="settings-item-label" style="color:var(--red)">Reset All Data</div><div class="settings-item-sub">Cannot be undone</div></div>
+            <div class="settings-item-right" style="font-size:18px;color:var(--red)">⚠</div>
+          </div>
+        </div>
+      </div>
+
+      <div style="text-align:center;padding:16px 0 4px;font-size:11px;color:var(--textMuted);letter-spacing:.06em">EAU CLAIRE PARTNERS · OUTREACH TRACKER</div>
+    </div>
+
+  </div><!-- /scroll-area -->
+
+  <!-- BOTTOM NAV -->
+  <div class="bottom-nav">
+    <button class="nav-item active" id="nav-today" onclick="showScreen('today')">
+      <div class="nav-icon">🏠</div>
+      <div class="nav-label">Today</div>
+    </button>
+    <button class="nav-item" id="nav-contacts" onclick="showScreen('contacts')">
+      <div class="nav-icon">👥</div>
+      <div class="nav-label">Contacts</div>
+    </button>
+    <button class="nav-item" id="nav-funnel" onclick="showScreen('funnel')">
+      <div class="nav-icon">📊</div>
+      <div class="nav-label">Funnel</div>
+    </button>
+    <button class="nav-item" id="nav-settings" onclick="showScreen('settings')">
+      <div class="nav-icon">⚙️</div>
+      <div class="nav-label">Settings</div>
+    </button>
+  </div>
+
+</div><!-- /app -->
+
+<!-- TOAST -->
+<div id="toast"></div>
+
+<!-- SHEET OVERLAY -->
+<div class="sheet-overlay" id="sheet-overlay" onclick="closeSheet()"></div>
+
+<!-- CONTACT SHEET -->
+<div class="sheet" id="contact-sheet">
+  <div class="sheet-handle"></div>
+  <div class="sheet-header">
+    <div class="sheet-title" id="sheet-title">Add Contact</div>
+    <button class="sheet-close" onclick="closeSheet()">✕</button>
+  </div>
+  <div class="sheet-body">
+    <input type="hidden" id="edit-contact-id"/>
+
+    <label class="sf-label">Full Name *</label>
+    <input class="sf-input" id="cf-name" type="text" placeholder="e.g. Sarah Johnson" autocomplete="name"/>
+
+    <label class="sf-label">Status</label>
+    <div class="status-grid" id="status-grid"></div>
+
+    <label class="sf-label">Tier</label>
+    <div class="tier-grid">
+      <div class="tier-option selected" onclick="selectTier(this,'hot')">🔥<br>Hot</div>
+      <div class="tier-option" onclick="selectTier(this,'warm')">☀️<br>Warm</div>
+      <div class="tier-option" onclick="selectTier(this,'cool')">🌤<br>Cool</div>
+      <div class="tier-option" onclick="selectTier(this,'cold')">🌙<br>Cold</div>
+    </div>
+
+    <label class="sf-label">Notes</label>
+    <textarea class="sf-input sf-textarea" id="cf-notes" placeholder="e.g. New mortgage, 2 kids, referred by Marcus..."></textarea>
+
+    <label class="sf-label">Last Contacted</label>
+    <input class="sf-input" id="cf-date" type="date"/>
+
+    <button class="log-btn" style="margin-top:4px" onclick="saveContact()">Save Contact</button>
+    <div id="delete-contact-row" style="display:none;margin-top:10px">
+      <button class="log-btn secondary" onclick="deleteCurrentContact()">Delete Contact</button>
+    </div>
+  </div>
+</div>
+
+<script>
+// ────────────────────────────────────────────
+// STATE
+// ────────────────────────────────────────────
+let state = {
+  contacts: [],
+  dailyLogs: [],  // [{date, sent, replies, booked, applied, note, time}]
+  weeklyMetrics: [],
+  settings: {
+    offerName: '',
+    offerLine: '',
+    tgtOutreach: 10,
+    tgtCalls: 3,
+    tgtApps: 4,
+  },
+  notes: { working: '', improve: '' },
+  _seq: 0,
+};
+
+let currentFilter = 'all';
+let currentTier = 'hot';
+let currentScreen = 'today';
+let editingContactId = null;
+let todayCounters = { sent: 0, replies: 0, booked: 0, applied: 0 };
+let deferredInstall = null;
+
+const STATUSES = [
+  {id:'not-contacted', label:'Not Contacted', color:'#777', bg:'#F5F4F1'},
+  {id:'contacted',     label:'Contacted',     color:'#1A6A7A', bg:'#F0F8FA'},
+  {id:'replied',       label:'Replied',       color:'#B8973A', bg:'#FAF6EC'},
+  {id:'lead-delivered',label:'Lead Sent',     color:'#5B3A8A', bg:'#F6F3FB'},
+  {id:'booked',        label:'Booked ✓',      color:'#1A7A4E', bg:'#F0FAF5'},
+  {id:'applied',       label:'Applied ✓',     color:'#1A7A4E', bg:'#F0FAF5'},
+  {id:'not-interested',label:'Not Interested',color:'#C0392B', bg:'#FDF3F2'},
+];
+
+const STATUS_MAP = Object.fromEntries(STATUSES.map(s => [s.id, s]));
+
+// ────────────────────────────────────────────
+// NAVIGATION
+// ────────────────────────────────────────────
+const SCREEN_CONFIG = {
+  today:    { title: 'Today',     hdrBtn: '＋' },
+  contacts: { title: 'Contacts',  hdrBtn: '＋' },
+  funnel:   { title: 'Funnel',    hdrBtn: '' },
+  settings: { title: 'Settings',  hdrBtn: '' },
+};
+
+function showScreen(id) {
+  currentScreen = id;
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.getElementById('screen-' + id).classList.add('active');
+  document.getElementById('nav-' + id).classList.add('active');
+  document.getElementById('scroll-area').scrollTop = 0;
+
+  const cfg = SCREEN_CONFIG[id];
+  document.getElementById('screen-title').textContent = cfg.title;
+  const btn = document.getElementById('hdr-action-btn');
+  btn.textContent = cfg.hdrBtn;
+  btn.style.display = cfg.hdrBtn ? 'flex' : 'none';
+
+  // show/hide FAB
+  const fab = document.getElementById('contacts-fab');
+  if (fab) fab.style.display = id === 'contacts' ? 'flex' : 'none';
+
+  if (id === 'funnel') renderFunnel();
+  if (id === 'today') renderTodayLog();
+}
+
+function hdrAction() {
+  if (currentScreen === 'today' || currentScreen === 'contacts') openAddContact();
+}
+
+// ────────────────────────────────────────────
+// INIT
+// ────────────────────────────────────────────
+function init() {
+  loadData();
+  buildStatusGrid();
+  setTodayLabel();
+  renderAll();
+
+  // auto-save every 30s
+  setInterval(save, 30000);
+
+  // install prompt
+  window.addEventListener('beforeinstallprompt', e => {
+    e.preventDefault();
+    deferredInstall = e;
+    document.getElementById('install-banner').classList.remove('hidden');
+    document.getElementById('app').classList.add('banner-shown');
+  });
+}
+
+function setTodayLabel() {
+  const now = new Date();
+  const days = ['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+  const months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+  document.getElementById('today-date-label').textContent =
+    days[now.getDay()] + ' · ' + months[now.getMonth()] + ' ' + now.getDate();
+  const h = now.getHours();
+  const greet = h < 12 ? 'Good morning 👋' : h < 17 ? 'Good afternoon 👋' : 'Good evening 👋';
+  document.getElementById('today-greeting').textContent = greet;
+}
+
+function renderAll() {
+  renderStats();
+  renderContacts();
+  renderTodayLog();
+  renderFunnel();
+  renderWeeklyTable();
+  loadSettings();
+  updateStreak();
+  updateOfferDisplay();
+}
+
+// ────────────────────────────────────────────
+// STATS
+// ────────────────────────────────────────────
+function renderStats() {
+  const c = state.contacts;
+  const total = c.length;
+  const replied = c.filter(x => ['replied','lead-delivered','booked','applied'].includes(x.status)).length;
+  const booked = c.filter(x => ['booked','applied'].includes(x.status)).length;
+  const apps = c.filter(x => x.status === 'applied').length;
+  setT('st-total', total);
+  setT('st-replied', replied);
+  setT('st-booked', booked);
+  setT('st-apps', apps);
+}
+
+// ────────────────────────────────────────────
+// STREAK
+// ────────────────────────────────────────────
+function updateStreak() {
+  const dates = [...new Set(state.dailyLogs.map(l => l.date))].sort().reverse();
+  let streak = 0;
+  const today = todayStr();
+  let check = today;
+  for (let i = 0; i < 365; i++) {
+    if (dates.includes(check)) { streak++; check = prevDay(check); }
+    else break;
+  }
+  setT('streak-num', streak);
+}
+
+function todayStr() {
+  return new Date().toISOString().slice(0,10);
+}
+function prevDay(d) {
+  const dt = new Date(d + 'T12:00:00');
+  dt.setDate(dt.getDate() - 1);
+  return dt.toISOString().slice(0,10);
+}
+
+// ────────────────────────────────────────────
+// TODAY LOG
+// ────────────────────────────────────────────
+function ctrAdj(field, delta) {
+  todayCounters[field] = Math.max(0, (todayCounters[field] || 0) + delta);
+  setT('ctr-' + field, todayCounters[field]);
+}
+
+function logToday() {
+  const sent = todayCounters.sent;
+  const replies = todayCounters.replies;
+  const booked = todayCounters.booked;
+  const applied = todayCounters.applied;
+  if (sent + replies + booked + applied === 0) { toast('Add at least one activity'); return; }
+  const note = document.getElementById('log-note').value.trim();
+  const now = new Date();
+  state.dailyLogs.push({
+    id: ++state._seq,
+    date: todayStr(),
+    time: now.getHours().toString().padStart(2,'0') + ':' + now.getMinutes().toString().padStart(2,'0'),
+    sent, replies, booked, applied, note
+  });
+  // reset counters
+  todayCounters = { sent:0, replies:0, booked:0, applied:0 };
+  ['sent','replies','booked','applied'].forEach(f => setT('ctr-'+f, 0));
+  document.getElementById('log-note').value = '';
+  save();
+  renderTodayLog();
+  updateStreak();
+  toast('Activity logged ✓');
+}
+
+function renderTodayLog() {
+  const today = todayStr();
+  const entries = state.dailyLogs.filter(l => l.date === today).reverse();
+  const sec = document.getElementById('today-log-section');
+  const list = document.getElementById('today-log-list');
+  if (entries.length === 0) { sec.style.display = 'none'; return; }
+  sec.style.display = 'block';
+  list.innerHTML = entries.map(e => `
+    <div class="log-entry">
+      <div class="log-entry-time">${e.time}</div>
+      <div class="log-entry-body">
+        ${e.note ? `<div style="font-size:13px;color:var(--text);font-weight:500">${escHtml(e.note)}</div>` : ''}
+        <div class="log-entry-chips">
+          ${e.sent   ? `<span class="log-chip lc-sent">${e.sent} sent</span>` : ''}
+          ${e.replies? `<span class="log-chip lc-replied">${e.replies} replied</span>` : ''}
+          ${e.booked ? `<span class="log-chip lc-booked">${e.booked} booked</span>` : ''}
+          ${e.applied? `<span class="log-chip lc-booked">${e.applied} applied</span>` : ''}
+        </div>
+      </div>
+      <button class="log-entry-del" onclick="deleteLog(${e.id})">×</button>
+    </div>
+  `).join('');
+}
+
+function deleteLog(id) {
+  state.dailyLogs = state.dailyLogs.filter(l => l.id !== id);
+  save(); renderTodayLog(); updateStreak();
+}
+
+// ────────────────────────────────────────────
+// CONTACTS
+// ────────────────────────────────────────────
+function renderContacts() {
+  const search = (document.getElementById('contact-search').value || '').toLowerCase();
+  const list = document.getElementById('contact-list-mobile');
+  const filtered = state.contacts.filter(c => {
+    const matchFilter = currentFilter === 'all' || c.status === currentFilter;
+    const matchSearch = !search || c.name.toLowerCase().includes(search);
+    return matchFilter && matchSearch;
+  });
+
+  if (filtered.length === 0) {
+    list.innerHTML = `<div class="empty-state"><div class="empty-icon">${state.contacts.length === 0 ? '👥' : '🔍'}</div><div class="empty-text">${state.contacts.length === 0 ? 'No contacts yet.<br>Tap + to add your first one.' : 'No contacts match your filter.'}</div></div>`;
+    return;
+  }
+
+  list.innerHTML = filtered.map(c => {
+    const st = STATUS_MAP[c.status] || STATUS_MAP['not-contacted'];
+    const initials = c.name.split(' ').map(w=>w[0]||'').join('').toUpperCase().slice(0,2) || '?';
+    const colors = ['#B8973A','#1A6A7A','#5B3A8A','#1A7A4E','#2A6A8A','#7A3A5A'];
+    const avatarColor = colors[c.name.charCodeAt(0) % colors.length];
+    return `
+      <div class="contact-card" onclick="openEditContact(${c.id})">
+        <div class="contact-avatar" style="background:${avatarColor}">${initials}</div>
+        <div class="contact-info">
+          <div class="contact-name">${escHtml(c.name)}</div>
+          <div class="contact-meta">${tierLabel(c.tier)}${c.lastContact ? ' · ' + formatDate(c.lastContact) : ''}${c.notes ? ' · ' + escHtml(c.notes).slice(0,30) + (c.notes.length>30?'…':'') : ''}</div>
+        </div>
+        <div class="contact-status-badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}30">${st.label}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+function setFilter(filter, el) {
+  currentFilter = filter;
+  document.querySelectorAll('.filter-chip').forEach(c => c.className = 'filter-chip');
+  el.classList.add(filter === 'all' ? 'active-gold' :
+    ['booked','applied'].includes(filter) ? 'active-green' :
+    filter === 'not-interested' ? 'active-red' : 'active-teal');
+  renderContacts();
+}
+
+function tierLabel(tier) {
+  return {hot:'🔥 Hot', warm:'☀️ Warm', cool:'🌤 Cool', cold:'🌙 Cold'}[tier] || tier;
+}
+function formatDate(d) {
+  if (!d) return '';
+  const dt = new Date(d + 'T12:00:00');
+  return (dt.getMonth()+1) + '/' + dt.getDate();
+}
+
+// ────────────────────────────────────────────
+// CONTACT SHEET
+// ────────────────────────────────────────────
+function buildStatusGrid() {
+  const grid = document.getElementById('status-grid');
+  grid.innerHTML = STATUSES.map(s => `
+    <div class="status-option" id="sopt-${s.id}" onclick="selectStatus('${s.id}')"
+      style="background:${s.bg};border-color:${s.color}30">
+      <div class="status-dot" style="background:${s.color}"></div>
+      <span>${s.label}</span>
+    </div>
+  `).join('');
+  selectStatus('not-contacted');
+}
+
+function selectStatus(id) {
+  document.querySelectorAll('.status-option').forEach(el => {
+    el.classList.remove('selected');
+    el.style.borderColor = el.style.borderColor.replace(/[^#\w]/g,'') + '30';
+  });
+  const el = document.getElementById('sopt-' + id);
+  if (el) {
+    el.classList.add('selected');
+    const s = STATUS_MAP[id];
+    el.style.borderColor = s.color;
+    el.style.fontWeight = '700';
+  }
+  currentStatusSelection = id;
+}
+let currentStatusSelection = 'not-contacted';
+
+function selectTier(el, tier) {
+  document.querySelectorAll('.tier-option').forEach(t => t.classList.remove('selected'));
+  el.classList.add('selected');
+  currentTier = tier;
+}
+
+function openAddContact() {
+  editingContactId = null;
+  document.getElementById('sheet-title').textContent = 'Add Contact';
+  document.getElementById('cf-name').value = '';
+  document.getElementById('cf-notes').value = '';
+  document.getElementById('cf-date').value = todayStr();
+  document.getElementById('delete-contact-row').style.display = 'none';
+  selectStatus('not-contacted');
+  // reset tier to hot
+  document.querySelectorAll('.tier-option').forEach((t,i) => {
+    t.classList.toggle('selected', i===0);
+  });
+  currentTier = 'hot';
+  openSheet();
+  setTimeout(() => document.getElementById('cf-name').focus(), 350);
+}
+
+function openEditContact(id) {
+  const c = state.contacts.find(x => x.id === id);
+  if (!c) return;
+  editingContactId = id;
+  document.getElementById('sheet-title').textContent = 'Edit Contact';
+  document.getElementById('cf-name').value = c.name;
+  document.getElementById('cf-notes').value = c.notes || '';
+  document.getElementById('cf-date').value = c.lastContact || todayStr();
+  document.getElementById('delete-contact-row').style.display = 'block';
+  selectStatus(c.status || 'not-contacted');
+  // tier
+  document.querySelectorAll('.tier-option').forEach(t => {
+    const tiers = ['hot','warm','cool','cold'];
+    const idx = tiers.indexOf(t.textContent.includes('Hot') ? 'hot' : t.textContent.includes('Warm') ? 'warm' : t.textContent.includes('Cool') ? 'cool' : 'cold');
+    t.classList.toggle('selected', tiers[idx] === c.tier);
+  });
+  currentTier = c.tier || 'warm';
+  openSheet();
+}
+
+function saveContact() {
+  const name = document.getElementById('cf-name').value.trim();
+  if (!name) { toast('Name is required'); return; }
+  const contact = {
+    id: editingContactId || ++state._seq,
+    name,
+    status: currentStatusSelection,
+    tier: currentTier,
+    notes: document.getElementById('cf-notes').value.trim(),
+    lastContact: document.getElementById('cf-date').value,
+  };
+  if (editingContactId) {
+    const idx = state.contacts.findIndex(c => c.id === editingContactId);
+    if (idx >= 0) state.contacts[idx] = contact;
+  } else {
+    state.contacts.unshift(contact);
+  }
+  closeSheet();
+  save();
+  renderContacts();
+  renderStats();
+  renderFunnel();
+  toast(editingContactId ? 'Contact updated ✓' : 'Contact added ✓');
+}
+
+function deleteCurrentContact() {
+  if (!editingContactId) return;
+  if (!confirm('Delete this contact?')) return;
+  state.contacts = state.contacts.filter(c => c.id !== editingContactId);
+  closeSheet();
+  save(); renderContacts(); renderStats(); renderFunnel();
+  toast('Contact deleted');
+}
+
+// ────────────────────────────────────────────
+// FUNNEL
+// ────────────────────────────────────────────
+function renderFunnel() {
+  const c = state.contacts;
+  const total = c.length;
+  const replied = c.filter(x => ['replied','lead-delivered','booked','applied'].includes(x.status)).length;
+  const led = c.filter(x => ['lead-delivered','booked','applied'].includes(x.status)).length;
+  const booked = c.filter(x => ['booked','applied'].includes(x.status)).length;
+  const apps = c.filter(x => x.status === 'applied').length;
+
+  const stages = [
+    {label:'Contacted', val:total, color:'#1A6A7A'},
+    {label:'Replied',   val:replied, color:'#2A8A9A'},
+    {label:'Lead Sent', val:led,    color:'#B8973A'},
+    {label:'Booked',    val:booked, color:'#C8973A'},
+    {label:'Applied',   val:apps,   color:'#1A7A4E'},
+  ];
+
+  const el = document.getElementById('mobile-funnel');
+  if (!el) return;
+  el.innerHTML = stages.map(s => {
+    const w = total > 0 ? Math.max(5, Math.round((s.val/total)*100)) : 0;
+    const pct = total > 0 ? Math.round((s.val/total)*100) + '%' : '—';
+    return `
+      <div class="funnel-stage">
+        <div class="fs-label">${s.label}</div>
+        <div class="fs-bar-wrap">
+          <div class="fs-bar" style="width:${w}%;background:${s.color}">${s.val > 0 ? s.val : ''}</div>
+        </div>
+        <div class="fs-val">${s.val}</div>
+        <div class="fs-pct">${pct}</div>
+      </div>
+    `;
+  }).join('');
+}
+
+// ────────────────────────────────────────────
+// WEEKLY TABLE
+// ────────────────────────────────────────────
+function addWeekRow(data) {
+  data = data || {};
+  const tbody = document.getElementById('week-tbl-body');
+  const n = tbody.rows.length + 1;
+  const tr = document.createElement('tr');
+  tr.innerHTML = `
+    <td><input value="${data.week||'Week '+n}" oninput="save()" style="width:54px"/></td>
+    <td><input type="number" min="0" value="${data.sent||''}" placeholder="0" oninput="save()" style="width:38px"/></td>
+    <td><input type="number" min="0" value="${data.replied||''}" placeholder="0" oninput="save()" style="width:44px"/></td>
+    <td><input type="number" min="0" value="${data.booked||''}" placeholder="0" oninput="save()" style="width:44px"/></td>
+    <td><input type="number" min="0" value="${data.applied||''}" placeholder="0" oninput="save()" style="width:44px"/></td>
+    <td><input value="${data.revenue||''}" placeholder="$0" oninput="save()" style="width:52px;color:var(--green);font-weight:600"/></td>
+    <td><button onclick="this.closest('tr').remove();save()" style="background:none;border:none;color:var(--textMuted);font-size:16px;cursor:pointer;padding:2px">×</button></td>
+  `;
+  tbody.appendChild(tr);
+}
+
+function renderWeeklyTable() {
+  document.getElementById('week-tbl-body').innerHTML = '';
+  const weeks = state.weeklyMetrics && state.weeklyMetrics.length > 0
+    ? state.weeklyMetrics
+    : [{week:'Week 1'},{week:'Week 2'},{week:'Week 3'},{week:'Week 4'}];
+  weeks.forEach(w => addWeekRow(w));
+}
+
+function collectWeeklyMetrics() {
+  const rows = [];
+  document.querySelectorAll('#week-tbl-body tr').forEach(tr => {
+    const inputs = tr.querySelectorAll('input');
+    rows.push({week:inputs[0]?.value,sent:inputs[1]?.value,replied:inputs[2]?.value,booked:inputs[3]?.value,applied:inputs[4]?.value,revenue:inputs[5]?.value});
+  });
+  return rows;
+}
+
+// ────────────────────────────────────────────
+// SETTINGS / OFFER
+// ────────────────────────────────────────────
+function loadSettings() {
+  const s = state.settings;
+  const set = (id, val) => { const el=document.getElementById(id); if(el&&val!==undefined) el.value=val; };
+  set('set-offer-name', s.offerName);
+  set('set-offer-line', s.offerLine);
+  set('set-tgt-outreach', s.tgtOutreach);
+  set('set-tgt-calls', s.tgtCalls);
+  set('set-tgt-apps', s.tgtApps);
+  const nw = document.getElementById('note-working');
+  const ni = document.getElementById('note-improve');
+  if (nw) nw.value = state.notes.working || '';
+  if (ni) ni.value = state.notes.improve || '';
+}
+
+function updateOffer() {
+  state.settings.offerName = document.getElementById('set-offer-name').value;
+  state.settings.offerLine = document.getElementById('set-offer-line').value;
+  updateOfferDisplay();
+  save();
+}
+
+function updateOfferDisplay() {
+  const name = state.settings.offerName || '—';
+  const line = state.settings.offerLine || 'Set your offer line in Settings';
+  setT('today-offer-name', name);
+  const lineEl = document.getElementById('today-offer-line');
+  if (lineEl) lineEl.textContent = line;
+}
+
+// ────────────────────────────────────────────
+// SHEET
+// ────────────────────────────────────────────
+function openSheet() {
+  document.getElementById('sheet-overlay').classList.add('open');
+  document.getElementById('contact-sheet').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeSheet() {
+  document.getElementById('sheet-overlay').classList.remove('open');
+  document.getElementById('contact-sheet').classList.remove('open');
+  document.body.style.overflow = '';
+}
+
+// ────────────────────────────────────────────
+// PERSIST
+// ────────────────────────────────────────────
+function save() {
+  state.settings.offerName = (document.getElementById('set-offer-name')||{}).value || state.settings.offerName;
+  state.settings.offerLine = (document.getElementById('set-offer-line')||{}).value || state.settings.offerLine;
+  state.settings.tgtOutreach = parseInt((document.getElementById('set-tgt-outreach')||{}).value) || 10;
+  state.settings.settings = parseInt((document.getElementById('set-tgt-calls')||{}).value) || 3;
+  state.settings.tgtApps = parseInt((document.getElementById('set-tgt-apps')||{}).value) || 4;
+  state.notes.working = (document.getElementById('note-working')||{}).value || '';
+  state.notes.improve = (document.getElementById('note-improve')||{}).value || '';
+  state.weeklyMetrics = collectWeeklyMetrics();
+  try { localStorage.setItem('ecp-tracker-v2', JSON.stringify(state)); } catch(e) {}
+  updateOfferDisplay();
+}
+
+function loadData() {
+  try {
+    const raw = localStorage.getItem('ecp-tracker-v2');
+    if (raw) {
+      const loaded = JSON.parse(raw);
+      Object.assign(state, loaded);
+    }
+  } catch(e) {}
+}
+
+function exportData() {
+  save();
+  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'outreach-tracker-backup.json';
+  a.click();
+  toast('Export downloaded');
+}
+
+function importData() {
+  const input = document.createElement('input');
+  input.type = 'file'; input.accept = '.json';
+  input.onchange = e => {
+    const reader = new FileReader();
+    reader.onload = ev => {
+      try {
+        const loaded = JSON.parse(ev.target.result);
+        Object.assign(state, loaded);
+        document.getElementById('week-tbl-body').innerHTML = '';
+        renderAll();
+        save();
+        toast('Data imported ✓');
+      } catch(e) { toast('Invalid file'); }
+    };
+    reader.readAsText(e.target.files[0]);
+  };
+  input.click();
+}
+
+function confirmReset() {
+  if (confirm('Reset ALL data? This cannot be undone.')) {
+    state = { contacts:[], dailyLogs:[], weeklyMetrics:[], settings:{offerName:'',offerLine:'',tgtOutreach:10,tgtCalls:3,tgtApps:4}, notes:{working:'',improve:''}, _seq:0 };
+    localStorage.removeItem('ecp-tracker-v2');
+    document.getElementById('week-tbl-body').innerHTML = '';
+    renderAll();
+    toast('Data reset');
+  }
+}
+
+// ────────────────────────────────────────────
+// INSTALL
+// ────────────────────────────────────────────
+function installApp() {
+  if (deferredInstall) { deferredInstall.prompt(); deferredInstall.userChoice.then(() => dismissBanner()); }
+}
+function dismissBanner() {
+  document.getElementById('install-banner').classList.add('hidden');
+  document.getElementById('app').classList.remove('banner-shown');
+}
+
+// ────────────────────────────────────────────
+// TOAST
+// ────────────────────────────────────────────
+let toastTimer;
+function toast(msg) {
+  const el = document.getElementById('toast');
+  el.textContent = msg;
+  el.classList.add('show');
+  clearTimeout(toastTimer);
+  toastTimer = setTimeout(() => el.classList.remove('show'), 2200);
+}
+
+// ────────────────────────────────────────────
+// UTILS
+// ────────────────────────────────────────────
+function setT(id, val) { const el=document.getElementById(id); if(el) el.textContent=val; }
+function escHtml(s) { return (s||'').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;'); }
+
+// prevent body scroll when sheet is open
+document.addEventListener('touchmove', e => {
+  if (document.getElementById('contact-sheet').classList.contains('open')) {
+    if (!e.target.closest('.sheet-body')) e.preventDefault();
+  }
+}, { passive: false });
+
+// ────────────────────────────────────────────
+// BOOT
+// ────────────────────────────────────────────
+init();
+</script>
+</body>
+</html>
