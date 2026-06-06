@@ -225,6 +225,98 @@ body{background:var(--bg);color:var(--text);font-family:-apple-system,'Segoe UI'
 /* prevent zoom on input focus */
 input,select,textarea{font-size:16px !important}
 .filter-chip,.nav-label,.qa-counter-label,.stat-tile-lbl,.contact-meta,.log-entry-time,.sheet-close,.fs-pct,.fs-val,.week-tbl th,.settings-title,.install-steps-title,.qa-title,.clabel,.streak-label,.today-date{font-size:unset}
+
+/* ── EMAIL SEQUENCE ── */
+.seq-task-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--purple);border-radius:10px;padding:14px 16px;margin-bottom:10px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.seq-task-card.done{border-left-color:var(--green);opacity:.7}
+.seq-task-header{display:flex;align-items:flex-start;justify-content:space-between;gap:10px;margin-bottom:8px}
+.seq-task-label{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--purple)}
+.seq-task-label.done{color:var(--green)}
+.seq-task-name{font-size:14px;font-weight:600;color:var(--text);margin-top:3px;line-height:1.3}
+.seq-task-meta{font-size:12px;color:var(--textMuted);margin-bottom:10px}
+.seq-email-preview{background:var(--bgAlt);border-radius:8px;padding:12px 14px;font-size:13px;color:var(--textMid);line-height:1.7;margin-bottom:10px;max-height:200px;overflow-y:auto;white-space:pre-wrap;display:none}
+.seq-email-preview.open{display:block}
+.seq-btn-row{display:flex;gap:8px;flex-wrap:wrap}
+.seq-btn{border-radius:6px;padding:7px 13px;font-size:12px;font-weight:600;cursor:pointer;border:none;display:inline-flex;align-items:center;gap:5px}
+.seq-btn-pri{background:var(--purple);color:#fff}
+.seq-btn-pri:active{background:#4A2A7A}
+.seq-btn-sec{background:var(--purpleBg);border:1px solid var(--purpleBorder);color:var(--purple)}
+.seq-btn-done{background:var(--greenBg);border:1px solid var(--greenBorder);color:var(--green)}
+.seq-empty{text-align:center;padding:24px 16px;color:var(--textMuted);font-size:13px;line-height:1.6}
+.seq-empty-icon{font-size:28px;margin-bottom:8px}
+.seq-picker{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.seq-pick-card{border:1.5px solid var(--border);border-radius:10px;padding:14px;cursor:pointer;transition:all .15s;text-align:left}
+.seq-pick-card:active{transform:scale(.98)}
+.seq-pick-card.selected-a{border-color:var(--green);background:var(--greenBg)}
+.seq-pick-card.selected-b{border-color:var(--purple);background:var(--purpleBg)}
+.seq-pick-icon{font-size:22px;margin-bottom:6px}
+.seq-pick-title{font-size:13px;font-weight:700;color:var(--text);margin-bottom:3px}
+.seq-pick-sub{font-size:11px;color:var(--textMuted);line-height:1.4}
+
+
+/* ── GOALS TRACKER ── */
+.goals-card{background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:10px;padding:14px 16px;margin-bottom:14px;box-shadow:0 1px 3px rgba(0,0,0,.04)}
+.goals-title{font-family:'JetBrains Mono',monospace;font-size:9px;letter-spacing:.14em;text-transform:uppercase;font-weight:600;color:var(--teal);margin-bottom:12px}
+.goal-row{margin-bottom:12px}
+.goal-row:last-child{margin-bottom:0}
+.goal-label-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:4px}
+.goal-label{font-size:13px;font-weight:500;color:var(--text)}
+.goal-fraction{font-family:'JetBrains Mono',monospace;font-size:11px;color:var(--textMuted)}
+.goal-bar-bg{background:var(--bgAlt);border-radius:20px;height:8px;overflow:hidden}
+.goal-bar-fill{height:100%;border-radius:20px;transition:width .4s ease}
+.goal-bar-fill.teal{background:linear-gradient(90deg,#1A6A7A,#2A8A9A)}
+.goal-bar-fill.gold{background:linear-gradient(90deg,#B8973A,#D4A94A)}
+.goal-bar-fill.green{background:linear-gradient(90deg,#1A7A4E,#2A9A6E)}
+.goal-bar-fill.done{background:linear-gradient(90deg,#1A7A4E,#2ABA6E)}
+
+/* ── CELEBRATION MODAL ── */
+.celebrate-overlay{position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:400;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .3s;pointer-events:none}
+.celebrate-overlay.show{opacity:1;pointer-events:all}
+.celebrate-box{background:var(--surface);border-radius:18px;padding:28px 24px;max-width:320px;width:100%;text-align:center;transform:scale(.9);transition:transform .3s}
+.celebrate-overlay.show .celebrate-box{transform:scale(1)}
+.celebrate-icon{font-size:52px;margin-bottom:10px;line-height:1}
+.celebrate-title{font-family:'Georgia',serif;font-size:22px;font-weight:700;color:var(--text);margin-bottom:6px}
+.celebrate-sub{font-size:14px;color:var(--textMuted);line-height:1.5;margin-bottom:20px}
+.celebrate-stat{background:var(--goldBg);border:1px solid var(--goldBorder);border-radius:8px;padding:10px 16px;margin-bottom:20px;font-family:'Georgia',serif;font-size:26px;font-weight:700;color:var(--gold)}
+.celebrate-stat-label{font-size:11px;color:var(--textMuted);letter-spacing:.06em;text-transform:uppercase;margin-top:2px}
+.celebrate-close{width:100%;background:var(--gold);color:#fff;border:none;border-radius:8px;padding:12px;font-size:15px;font-weight:600;cursor:pointer}
+
+
+/* ── DELETE CONFIRM ── */
+.delete-confirm-box{background:var(--redBg);border:1px solid var(--redBorder);border-radius:10px;padding:14px 16px;margin-top:10px;display:none}
+.delete-confirm-box.open{display:block}
+.delete-confirm-text{font-size:13px;color:var(--red);margin-bottom:12px;font-weight:500;line-height:1.4}
+.delete-confirm-row{display:flex;gap:8px}
+.delete-confirm-yes{flex:1;background:var(--red);color:#fff;border:none;border-radius:8px;padding:11px;font-size:14px;font-weight:600;cursor:pointer}
+.delete-confirm-no{flex:1;background:transparent;color:var(--textMid);border:1px solid var(--border);border-radius:8px;padding:11px;font-size:14px;font-weight:600;cursor:pointer}
+
+
+/* ── RESET MODAL ── */
+.reset-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
+.reset-overlay.open{opacity:1;pointer-events:all}
+.reset-box{background:var(--surface);border-radius:16px;padding:24px 22px;max-width:300px;width:100%;text-align:center}
+.reset-icon{font-size:36px;margin-bottom:8px}
+.reset-title{font-family:'Georgia',serif;font-size:18px;font-weight:700;color:var(--text);margin-bottom:6px}
+.reset-sub{font-size:13px;color:var(--textMuted);line-height:1.5;margin-bottom:18px}
+.reset-btn-row{display:flex;gap:8px;flex-direction:column}
+.reset-btn-danger{background:var(--red);color:#fff;border:none;border-radius:8px;padding:12px;font-size:14px;font-weight:600;cursor:pointer;width:100%}
+.reset-btn-warn{background:#FAF0E0;color:#C07020;border:1px solid #E8C890;border-radius:8px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;width:100%}
+.reset-btn-cancel{background:transparent;color:var(--textMuted);border:1px solid var(--border);border-radius:8px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;width:100%}
+
+
+/* ── EXPORT MODAL ── */
+.export-overlay{position:fixed;inset:0;background:rgba(0,0,0,.55);z-index:300;display:flex;align-items:center;justify-content:center;padding:20px;opacity:0;transition:opacity .2s;pointer-events:none}
+.export-overlay.open{opacity:1;pointer-events:all}
+.export-box{background:var(--surface);border-radius:16px;padding:22px;max-width:320px;width:100%}
+.export-title{font-family:'Georgia',serif;font-size:17px;font-weight:700;color:var(--text);margin-bottom:4px}
+.export-sub{font-size:12px;color:var(--textMuted);margin-bottom:16px;line-height:1.5}
+.export-option{background:var(--bgAlt);border:1px solid var(--border);border-radius:10px;padding:13px 15px;margin-bottom:10px;cursor:pointer;display:flex;align-items:center;gap:12px;transition:all .15s}
+.export-option:active{background:var(--goldBg);border-color:var(--gold)}
+.export-option-icon{font-size:22px;flex-shrink:0}
+.export-option-title{font-size:14px;font-weight:600;color:var(--text)}
+.export-option-sub{font-size:11px;color:var(--textMuted);margin-top:2px;line-height:1.4}
+.export-cancel{width:100%;background:transparent;color:var(--textMuted);border:1px solid var(--border);border-radius:8px;padding:11px;font-size:13px;font-weight:600;cursor:pointer;margin-top:4px}
+
 </style>
 </head>
 <body>
@@ -264,9 +356,9 @@ input,select,textarea{font-size:16px !important}
       <!-- stat strip -->
       <div class="stat-strip">
         <div class="stat-tile"><div class="stat-tile-val" id="st-total">0</div><div class="stat-tile-lbl">Total</div></div>
-        <div class="stat-tile"><div class="stat-tile-val" id="st-replied">0</div><div class="stat-tile-lbl">Replied</div></div>
-        <div class="stat-tile"><div class="stat-tile-val" id="st-booked">0</div><div class="stat-tile-lbl">Booked</div></div>
-        <div class="stat-tile"><div class="stat-tile-val" id="st-apps">0</div><div class="stat-tile-lbl">Applied</div></div>
+        <div class="stat-tile"><div class="stat-tile-val" id="st-replied">0</div><div class="stat-tile-lbl">Booked</div></div>
+        <div class="stat-tile"><div class="stat-tile-val" id="st-booked">0</div><div class="stat-tile-lbl">Meetings</div></div>
+        <div class="stat-tile"><div class="stat-tile-val" id="st-apps">0</div><div class="stat-tile-lbl">Deals Won</div></div>
       </div>
 
       <!-- streak -->
@@ -327,6 +419,12 @@ input,select,textarea{font-size:16px !important}
         <div id="today-log-list"></div>
       </div>
 
+      <!-- email sequence tasks -->
+      <div id="email-tasks-section">
+        <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--purple);margin-bottom:10px;margin-top:4px">📧 Emails to Send Today</div>
+        <div id="email-tasks-list"></div>
+      </div>
+
       <!-- offer ref -->
       <div style="background:var(--surface);border:1px solid var(--border);border-left:3px solid var(--teal);border-radius:10px;padding:14px 16px;margin-bottom:16px">
         <div style="font-size:10px;font-weight:600;letter-spacing:.14em;text-transform:uppercase;color:var(--teal);margin-bottom:6px">Your Offer</div>
@@ -345,10 +443,10 @@ input,select,textarea{font-size:16px !important}
         <div class="filter-chip active-gold" onclick="setFilter('all',this)">All</div>
         <div class="filter-chip" onclick="setFilter('not-contacted',this)">Not Contacted</div>
         <div class="filter-chip" onclick="setFilter('contacted',this)">Contacted</div>
-        <div class="filter-chip" onclick="setFilter('replied',this)">Replied</div>
-        <div class="filter-chip" onclick="setFilter('lead-delivered',this)">Lead Sent</div>
-        <div class="filter-chip" onclick="setFilter('booked',this)">Booked ✓</div>
-        <div class="filter-chip" onclick="setFilter('applied',this)">Applied ✓</div>
+        <div class="filter-chip" onclick="setFilter('booked-meeting',this)">Booked Meeting</div>
+        <div class="filter-chip" onclick="setFilter('completed-meeting',this)">Completed Meeting</div>
+        <div class="filter-chip" onclick="setFilter('closing-meeting',this)">Completed Closing</div>
+        <div class="filter-chip" onclick="setFilter('deal-won',this)">Deal Won 🏆</div>
         <div class="filter-chip" onclick="setFilter('not-interested',this)">Not Interested</div>
       </div>
       <div id="contact-list-mobile"></div>
@@ -359,6 +457,51 @@ input,select,textarea{font-size:16px !important}
 
     <!-- ══ FUNNEL SCREEN ══ -->
     <div id="screen-funnel" class="screen">
+
+      <!-- daily / weekly / monthly goals tracker -->
+      <div class="goals-card">
+        <div class="goals-title">📊 Goal Progress</div>
+
+        <div class="goal-row">
+          <div class="goal-label-row">
+            <span class="goal-label">Today — Outreach Sent</span>
+            <span class="goal-fraction"><span id="gd-sent-val">0</span> / <span id="gd-sent-tgt">10</span></span>
+          </div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill teal" id="gd-sent-bar" style="width:0%"></div></div>
+        </div>
+
+        <div class="goal-row">
+          <div class="goal-label-row">
+            <span class="goal-label">This Week — Calls Booked</span>
+            <span class="goal-fraction"><span id="gw-booked-val">0</span> / <span id="gw-booked-tgt">3</span></span>
+          </div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill gold" id="gw-booked-bar" style="width:0%"></div></div>
+        </div>
+
+        <div class="goal-row">
+          <div class="goal-label-row">
+            <span class="goal-label">This Week — Meetings Completed</span>
+            <span class="goal-fraction"><span id="gw-meetings-val">0</span> / <span id="gw-meetings-tgt">2</span></span>
+          </div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill gold" id="gw-meetings-bar" style="width:0%"></div></div>
+        </div>
+
+        <div class="goal-row">
+          <div class="goal-label-row">
+            <span class="goal-label">This Month — Deals Won</span>
+            <span class="goal-fraction"><span id="gm-won-val">0</span> / <span id="gm-won-tgt">4</span></span>
+          </div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill green" id="gm-won-bar" style="width:0%"></div></div>
+        </div>
+
+        <div class="goal-row">
+          <div class="goal-label-row">
+            <span class="goal-label">This Month — Outreach Sent</span>
+            <span class="goal-fraction"><span id="gm-outreach-val">0</span> / <span id="gm-outreach-tgt">200</span></span>
+          </div>
+          <div class="goal-bar-bg"><div class="goal-bar-fill teal" id="gm-outreach-bar" style="width:0%"></div></div>
+        </div>
+      </div>
 
       <!-- funnel visual -->
       <div class="funnel-card">
@@ -485,6 +628,62 @@ input,select,textarea{font-size:16px !important}
 
 </div><!-- /app -->
 
+
+  <!-- CELEBRATION MODAL -->
+  <div class="celebrate-overlay" id="celebrate-overlay" onclick="closeCelebration()">
+    <div class="celebrate-box" onclick="event.stopPropagation()">
+      <div class="celebrate-icon" id="cel-icon">🎉</div>
+      <div class="celebrate-title" id="cel-title">Goal Hit!</div>
+      <div class="celebrate-sub" id="cel-sub">You crushed it.</div>
+      <div class="celebrate-stat">
+        <div id="cel-stat">—</div>
+        <div class="celebrate-stat-label" id="cel-stat-label">achieved</div>
+      </div>
+      <button class="celebrate-close" onclick="closeCelebration()">Keep Going 💪</button>
+    </div>
+  </div>
+
+
+  
+  <!-- EXPORT MODAL -->
+  <div class="export-overlay" id="export-overlay">
+    <div class="export-box">
+      <div class="export-title">Export Data</div>
+      <div class="export-sub">Choose what to export and in which format.</div>
+
+      <div class="export-option" onclick="exportAllCRM()">
+        <div class="export-option-icon">👥</div>
+        <div>
+          <div class="export-option-title">All Contacts → CRM</div>
+          <div class="export-option-sub">Exports all contacts formatted for the Eau Claire CRM. Ready to import.</div>
+        </div>
+      </div>
+
+      <div class="export-option" onclick="exportAllBackup()">
+        <div class="export-option-icon">💾</div>
+        <div>
+          <div class="export-option-title">Full Backup</div>
+          <div class="export-option-sub">Exports everything — contacts, logs, settings. Use to restore or move devices.</div>
+        </div>
+      </div>
+
+      <button class="export-cancel" onclick="closeExportModal()">Cancel</button>
+    </div>
+  </div>
+
+<!-- RESET MODAL -->
+  <div class="reset-overlay" id="reset-overlay">
+    <div class="reset-box">
+      <div class="reset-icon">⚠️</div>
+      <div class="reset-title" id="reset-modal-title">Reset Data</div>
+      <div class="reset-sub" id="reset-modal-sub">Choose what to clear.</div>
+      <div class="reset-btn-row">
+        <button class="reset-btn-danger" id="reset-confirm-btn" onclick="executeReset()">Yes, Reset</button>
+        <button class="reset-btn-cancel" onclick="closeResetModal()">Cancel</button>
+      </div>
+    </div>
+  </div>
+
 <!-- TOAST -->
 <div id="toast"></div>
 
@@ -521,9 +720,32 @@ input,select,textarea{font-size:16px !important}
     <label class="sf-label">Last Contacted</label>
     <input class="sf-input" id="cf-date" type="date"/>
 
+    
+    <label class="sf-label" style="margin-top:4px">Email Sequence</label>
+    <div class="seq-picker">
+      <div class="seq-pick-card" id="seq-pick-a" onclick="pickSeq('A')">
+        <div class="seq-pick-icon">📞</div>
+        <div class="seq-pick-title">Sequence A</div>
+        <div class="seq-pick-sub">Answered &amp; Booked — 7 emails over 30 days</div>
+      </div>
+      <div class="seq-pick-card" id="seq-pick-b" onclick="pickSeq('B')">
+        <div class="seq-pick-icon">📬</div>
+        <div class="seq-pick-title">Sequence B</div>
+        <div class="seq-pick-sub">No Answer / Not Booked — 7 emails over 30 days</div>
+      </div>
+    </div>
+    <div id="seq-pick-none" style="font-size:12px;color:var(--textMuted);margin-bottom:14px">No sequence assigned — select one above</div>
+
     <button class="log-btn" style="margin-top:4px" onclick="saveContact()">Save Contact</button>
     <div id="delete-contact-row" style="display:none;margin-top:10px">
-      <button class="log-btn secondary" onclick="deleteCurrentContact()">Delete Contact</button>
+      <button class="log-btn secondary" onclick="showDeleteConfirm()">Delete Contact</button>
+      <div class="delete-confirm-box" id="delete-confirm-box">
+        <div class="delete-confirm-text">Are you sure you want to delete this contact? This cannot be undone.</div>
+        <div class="delete-confirm-row">
+          <button class="delete-confirm-yes" onclick="confirmDeleteContact()">Yes, Delete</button>
+          <button class="delete-confirm-no" onclick="hideDeleteConfirm()">Cancel</button>
+        </div>
+      </div>
     </div>
   </div>
 </div>
@@ -542,6 +764,8 @@ let state = {
     tgtOutreach: 10,
     tgtCalls: 3,
     tgtApps: 4,
+    tgtMeetings: 2,
+    tgtMonthOutreach: 200,
   },
   notes: { working: '', improve: '' },
   _seq: 0,
@@ -555,13 +779,13 @@ let todayCounters = { sent: 0, replies: 0, booked: 0, applied: 0 };
 let deferredInstall = null;
 
 const STATUSES = [
-  {id:'not-contacted', label:'Not Contacted', color:'#777', bg:'#F5F4F1'},
-  {id:'contacted',     label:'Contacted',     color:'#1A6A7A', bg:'#F0F8FA'},
-  {id:'replied',       label:'Replied',       color:'#B8973A', bg:'#FAF6EC'},
-  {id:'lead-delivered',label:'Lead Sent',     color:'#5B3A8A', bg:'#F6F3FB'},
-  {id:'booked',        label:'Booked ✓',      color:'#1A7A4E', bg:'#F0FAF5'},
-  {id:'applied',       label:'Applied ✓',     color:'#1A7A4E', bg:'#F0FAF5'},
-  {id:'not-interested',label:'Not Interested',color:'#C0392B', bg:'#FDF3F2'},
+  {id:'not-contacted',      label:'Not Contacted',       color:'#888',    bg:'#F5F4F1'},
+  {id:'contacted',          label:'Contacted',           color:'#1A6A7A', bg:'#F0F8FA'},
+  {id:'booked-meeting',     label:'Booked Meeting',      color:'#B8973A', bg:'#FAF6EC'},
+  {id:'completed-meeting',  label:'Completed Meeting',   color:'#5B3A8A', bg:'#F6F3FB'},
+  {id:'closing-meeting',    label:'Completed Closing',   color:'#2A7A9A', bg:'#EBF6FA'},
+  {id:'deal-won',           label:'Deal Won 🏆',         color:'#1A7A4E', bg:'#F0FAF5'},
+  {id:'not-interested',     label:'Not Interested',      color:'#C0392B', bg:'#FDF3F2'},
 ];
 
 const STATUS_MAP = Object.fromEntries(STATUSES.map(s => [s.id, s]));
@@ -594,7 +818,7 @@ function showScreen(id) {
   const fab = document.getElementById('contacts-fab');
   if (fab) fab.style.display = id === 'contacts' ? 'flex' : 'none';
 
-  if (id === 'funnel') renderFunnel();
+  if (id === 'funnel') { renderFunnel(); renderGoals(); }
   if (id === 'today') renderTodayLog();
 }
 
@@ -638,6 +862,8 @@ function renderAll() {
   renderStats();
   renderContacts();
   renderTodayLog();
+  renderEmailTasks();
+  renderGoals();
   renderFunnel();
   renderWeeklyTable();
   loadSettings();
@@ -651,7 +877,7 @@ function renderAll() {
 function renderStats() {
   const c = state.contacts;
   const total = c.length;
-  const replied = c.filter(x => ['replied','lead-delivered','booked','applied'].includes(x.status)).length;
+  const replied = c.filter(x => ['booked-meeting','completed-meeting','closing-meeting','deal-won'].includes(x.status)).length;
   const booked = c.filter(x => ['booked','applied'].includes(x.status)).length;
   const apps = c.filter(x => x.status === 'applied').length;
   setT('st-total', total);
@@ -712,6 +938,7 @@ function logToday() {
   document.getElementById('log-note').value = '';
   save();
   renderTodayLog();
+  renderGoals();
   updateStreak();
   toast('Activity logged ✓');
 }
@@ -775,6 +1002,7 @@ function renderContacts() {
           <div class="contact-meta">${tierLabel(c.tier)}${c.lastContact ? ' · ' + formatDate(c.lastContact) : ''}${c.notes ? ' · ' + escHtml(c.notes).slice(0,30) + (c.notes.length>30?'…':'') : ''}</div>
         </div>
         <div class="contact-status-badge" style="background:${st.bg};color:${st.color};border:1px solid ${st.color}30">${st.label}</div>
+        <button onclick="event.stopPropagation();exportContact(${c.id})" style="background:none;border:1px solid var(--border);border-radius:6px;color:var(--textMuted);font-size:10px;font-weight:600;padding:5px 7px;cursor:pointer;flex-shrink:0;white-space:nowrap;letter-spacing:.03em">⬇ CRM</button>
       </div>
     `;
   }).join('');
@@ -816,13 +1044,15 @@ function buildStatusGrid() {
 function selectStatus(id) {
   document.querySelectorAll('.status-option').forEach(el => {
     el.classList.remove('selected');
-    el.style.borderColor = el.style.borderColor.replace(/[^#\w]/g,'') + '30';
+    const sid = el.id.replace('sopt-','');
+    const sm = STATUS_MAP[sid];
+    if (sm) el.style.borderColor = sm.color + '30';
   });
   const el = document.getElementById('sopt-' + id);
   if (el) {
     el.classList.add('selected');
     const s = STATUS_MAP[id];
-    el.style.borderColor = s.color;
+    if (s) el.style.borderColor = s.color;
     el.style.fontWeight = '700';
   }
   currentStatusSelection = id;
@@ -848,6 +1078,10 @@ function openAddContact() {
     t.classList.toggle('selected', i===0);
   });
   currentTier = 'hot';
+  currentSeqSelection = null;
+  document.getElementById('seq-pick-a').classList.remove('selected-a');
+  document.getElementById('seq-pick-b').classList.remove('selected-b');
+  document.getElementById('seq-pick-none').style.display = 'block';
   openSheet();
   setTimeout(() => document.getElementById('cf-name').focus(), 350);
 }
@@ -869,12 +1103,17 @@ function openEditContact(id) {
     t.classList.toggle('selected', tiers[idx] === c.tier);
   });
   currentTier = c.tier || 'warm';
+  currentSeqSelection = c.sequence || null;
+  if (c.sequence) pickSeq(c.sequence);
+  else { document.getElementById('seq-pick-a').classList.remove('selected-a'); document.getElementById('seq-pick-b').classList.remove('selected-b'); document.getElementById('seq-pick-none').style.display='block'; }
   openSheet();
 }
 
 function saveContact() {
   const name = document.getElementById('cf-name').value.trim();
   if (!name) { toast('Name is required'); return; }
+  const seqVal = currentSeqSelection;
+  const existingContact = editingContactId ? state.contacts.find(c => c.id === editingContactId) : null;
   const contact = {
     id: editingContactId || ++state._seq,
     name,
@@ -882,6 +1121,9 @@ function saveContact() {
     tier: currentTier,
     notes: document.getElementById('cf-notes').value.trim(),
     lastContact: document.getElementById('cf-date').value,
+    sequence: seqVal || (existingContact && existingContact.sequence) || null,
+    sequenceStart: (existingContact && existingContact.sequenceStart) || (seqVal ? todayStr() : null),
+    emailsDone: (existingContact && existingContact.emailsDone) || [],
   };
   if (editingContactId) {
     const idx = state.contacts.findIndex(c => c.id === editingContactId);
@@ -894,35 +1136,44 @@ function saveContact() {
   renderContacts();
   renderStats();
   renderFunnel();
+  renderEmailTasks();
   toast(editingContactId ? 'Contact updated ✓' : 'Contact added ✓');
 }
 
-function deleteCurrentContact() {
+function showDeleteConfirm() {
+  document.getElementById('delete-confirm-box').classList.add('open');
+}
+function hideDeleteConfirm() {
+  document.getElementById('delete-confirm-box').classList.remove('open');
+}
+function confirmDeleteContact() {
   if (!editingContactId) return;
-  if (!confirm('Delete this contact?')) return;
   state.contacts = state.contacts.filter(c => c.id !== editingContactId);
+  hideDeleteConfirm();
   closeSheet();
-  save(); renderContacts(); renderStats(); renderFunnel();
+  save(); renderContacts(); renderStats(); renderFunnel(); renderGoals();
   toast('Contact deleted');
 }
+// keep old name as alias for safety
+function deleteCurrentContact() { showDeleteConfirm(); }
 
 // ────────────────────────────────────────────
 // FUNNEL
 // ────────────────────────────────────────────
 function renderFunnel() {
   const c = state.contacts;
-  const total = c.length;
-  const replied = c.filter(x => ['replied','lead-delivered','booked','applied'].includes(x.status)).length;
-  const led = c.filter(x => ['lead-delivered','booked','applied'].includes(x.status)).length;
-  const booked = c.filter(x => ['booked','applied'].includes(x.status)).length;
-  const apps = c.filter(x => x.status === 'applied').length;
+  const total     = c.length;
+  const booked    = c.filter(x => ['booked-meeting','completed-meeting','closing-meeting','deal-won'].includes(x.status)).length;
+  const completed = c.filter(x => ['completed-meeting','closing-meeting','deal-won'].includes(x.status)).length;
+  const closing   = c.filter(x => ['closing-meeting','deal-won'].includes(x.status)).length;
+  const won       = c.filter(x => x.status === 'deal-won').length;
 
   const stages = [
-    {label:'Contacted', val:total, color:'#1A6A7A'},
-    {label:'Replied',   val:replied, color:'#2A8A9A'},
-    {label:'Lead Sent', val:led,    color:'#B8973A'},
-    {label:'Booked',    val:booked, color:'#C8973A'},
-    {label:'Applied',   val:apps,   color:'#1A7A4E'},
+    {label:'Contacted',           val:total,     color:'#1A6A7A'},
+    {label:'Booked Meeting',      val:booked,    color:'#2A8A9A'},
+    {label:'Completed Meeting',   val:completed, color:'#B8973A'},
+    {label:'Completed Closing',   val:closing,   color:'#C8973A'},
+    {label:'Deal Won',            val:won,        color:'#1A7A4E'},
   ];
 
   const el = document.getElementById('mobile-funnel');
@@ -991,6 +1242,8 @@ function loadSettings() {
   set('set-tgt-outreach', s.tgtOutreach);
   set('set-tgt-calls', s.tgtCalls);
   set('set-tgt-apps', s.tgtApps);
+  set('set-tgt-meetings', s.tgtMeetings);
+  set('set-tgt-month-outreach', s.tgtMonthOutreach);
   const nw = document.getElementById('note-working');
   const ni = document.getElementById('note-improve');
   if (nw) nw.value = state.notes.working || '';
@@ -1024,6 +1277,7 @@ function closeSheet() {
   document.getElementById('sheet-overlay').classList.remove('open');
   document.getElementById('contact-sheet').classList.remove('open');
   document.body.style.overflow = '';
+  hideDeleteConfirm();
 }
 
 // ────────────────────────────────────────────
@@ -1035,6 +1289,8 @@ function save() {
   state.settings.tgtOutreach = parseInt((document.getElementById('set-tgt-outreach')||{}).value) || 10;
   state.settings.settings = parseInt((document.getElementById('set-tgt-calls')||{}).value) || 3;
   state.settings.tgtApps = parseInt((document.getElementById('set-tgt-apps')||{}).value) || 4;
+  state.settings.tgtMeetings = parseInt((document.getElementById('set-tgt-meetings')||{}).value) || 2;
+  state.settings.tgtMonthOutreach = parseInt((document.getElementById('set-tgt-month-outreach')||{}).value) || 200;
   state.notes.working = (document.getElementById('note-working')||{}).value || '';
   state.notes.improve = (document.getElementById('note-improve')||{}).value || '';
   state.weeklyMetrics = collectWeeklyMetrics();
@@ -1052,14 +1308,126 @@ function loadData() {
   } catch(e) {}
 }
 
+function downloadJSON(data, filename) {
+  // Use data URI — works in sandboxed iframes where createObjectURL may fail
+  const json = JSON.stringify(data, null, 2);
+  const uri  = 'data:application/json;charset=utf-8,' + encodeURIComponent(json);
+  const a = document.createElement('a');
+  a.href = uri;
+  a.download = filename;
+  document.body.appendChild(a);
+  a.click();
+  document.body.removeChild(a);
+}
+
 function exportData() {
   save();
-  const blob = new Blob([JSON.stringify(state,null,2)],{type:'application/json'});
-  const a = document.createElement('a');
-  a.href = URL.createObjectURL(blob);
-  a.download = 'outreach-tracker-backup.json';
-  a.click();
-  toast('Export downloaded');
+  // Show export options sheet
+  openExportModal();
+}
+
+function exportAllBackup() {
+  downloadJSON(state, 'outreach-tracker-backup.json');
+  closeExportModal();
+  toast('Full backup downloaded');
+}
+
+function exportAllCRM() {
+  const crm = state.contacts.map(c => contactToCRM(c));
+  downloadJSON(crm, 'outreach-contacts-crm.json');
+  closeExportModal();
+  toast('CRM export downloaded (' + crm.length + ' contacts)');
+}
+
+function exportContact(contactId) {
+  const c = state.contacts.find(x => x.id === contactId);
+  if (!c) { toast('Contact not found'); return; }
+  const crm = [contactToCRM(c)];
+  const firstName = c.name.split(' ')[0];
+  downloadJSON(crm, 'crm-' + firstName.toLowerCase() + '-' + contactId + '.json');
+  toast(c.name + ' exported');
+}
+
+function contactToCRM(c) {
+  // Map Outreach Tracker contact → Eau Claire CRM format
+  const nameParts = (c.name || '').trim().split(' ');
+  const firstName = nameParts[0] || '';
+  const lastName  = nameParts.slice(1).join(' ') || '';
+
+  // Map pipeline status to CRM candidateLists tag
+  const statusToList = {
+    'not-contacted':     'Memory Jogger',
+    'contacted':         'Direct Approach',
+    'booked-meeting':    'Hot List',
+    'completed-meeting': 'Hot List',
+    'closing-meeting':   'Hot List',
+    'deal-won':          'Clients',
+    'not-interested':    'Not Interested',
+  };
+  const candidateList = statusToList[c.status] || 'Memory Jogger';
+
+  // Map tier to lifeTags
+  const tierToLife = {
+    hot:  'High Priority',
+    warm: 'Warm Market',
+    cool: 'Cool Market',
+    cold: 'Cold Outreach',
+  };
+
+  return {
+    id:               String(c.id),
+    firstName,
+    lastName,
+    phone:            c.phone  || '',
+    email:            c.email  || '',
+    birthday:         '',
+    location:         '',
+    province:         'British Columbia',
+    country:          'Canada',
+    company:          '',
+    notes:            buildCRMNotes(c),
+    nextExposure:     nextStepFromStatus(c.status),
+    nextExposureResult: '',
+    howKnow:          c.tier === 'cold' ? ['Cold Outreach'] : ['Community', 'Referral'],
+    familyTags:       [],
+    lifeTags:         [tierToLife[c.tier] || 'Warm Market'],
+    traitTags:        [],
+    professions:      [],
+    businessTags:     [],
+    pastTags:         [],
+    geographyTags:    ['British Columbia'],
+    candidateLists:   [candidateList],
+    // Tracker-specific extras preserved in notes
+    _trackerStatus:   c.status,
+    _trackerTier:     c.tier,
+    _trackerSequence: c.sequence || null,
+    _sequenceStart:   c.sequenceStart || null,
+    _emailsDone:      c.emailsDone || [],
+    _lastContact:     c.lastContact || '',
+  };
+}
+
+function buildCRMNotes(c) {
+  const parts = [];
+  if (c.notes) parts.push(c.notes);
+  if (c.status) parts.push('Pipeline status: ' + c.status.replace(/-/g,' '));
+  if (c.sequence) parts.push('Email sequence: ' + c.sequence + (c.sequenceStart ? ' (started ' + c.sequenceStart + ')' : ''));
+  if (c.emailsDone && c.emailsDone.length) parts.push('Emails sent: ' + c.emailsDone.join(', '));
+  if (c.lastContact) parts.push('Last contact: ' + c.lastContact);
+  return parts.join('\n');
+}
+
+function nextStepFromStatus(status) {
+  const map = {
+    'not-contacted':     'Send initial outreach',
+    'contacted':         'Follow up — book a meeting',
+    'booked-meeting':    'Confirm meeting and send prep materials',
+    'completed-meeting': 'Book closing meeting',
+    'closing-meeting':   'Follow up on application',
+    'deal-won':          'Welcome call + annual review scheduled',
+    'not-interested':    'Re-engage in 90 days',
+  };
+  return map[status] || 'Follow up';
 }
 
 function importData() {
@@ -1082,15 +1450,48 @@ function importData() {
   input.click();
 }
 
-function confirmReset() {
-  if (confirm('Reset ALL data? This cannot be undone.')) {
-    state = { contacts:[], dailyLogs:[], weeklyMetrics:[], settings:{offerName:'',offerLine:'',tgtOutreach:10,tgtCalls:3,tgtApps:4}, notes:{working:'',improve:''}, _seq:0 };
-    localStorage.removeItem('ecp-tracker-v2');
-    document.getElementById('week-tbl-body').innerHTML = '';
-    renderAll();
-    toast('Data reset');
-  }
+let _pendingResetType = null;
+
+function openExportModal()  { document.getElementById('export-overlay').classList.add('open'); }
+function closeExportModal() { document.getElementById('export-overlay').classList.remove('open'); }
+
+function openResetModal(type) {
+  _pendingResetType = type;
+  const titles = {all:'Reset All Data', contacts:'Reset Contacts', logs:'Reset Activity Logs'};
+  const subs   = {
+    all:'This will permanently delete all contacts, logs, and metrics. Settings are kept.',
+    contacts:'This will delete all contacts and their email sequences. Logs and settings are kept.',
+    logs:'This will delete all activity logs and daily entries. Contacts and settings are kept.'
+  };
+  document.getElementById('reset-modal-title').textContent = titles[type];
+  document.getElementById('reset-modal-sub').textContent   = subs[type];
+  document.getElementById('reset-overlay').classList.add('open');
 }
+function closeResetModal() {
+  document.getElementById('reset-overlay').classList.remove('open');
+  _pendingResetType = null;
+}
+function executeReset() {
+  const type = _pendingResetType;
+  if (!type) return;
+  if (type === 'all') {
+    state = { contacts:[], dailyLogs:[], weeklyMetrics:[], settings:{...state.settings}, notes:{working:'',improve:''}, _seq:0 };
+    document.getElementById('week-tbl-body').innerHTML = '';
+  } else if (type === 'contacts') {
+    state.contacts = [];
+    state._seq = 0;
+  } else if (type === 'logs') {
+    state.dailyLogs = [];
+    state.weeklyMetrics = [];
+    document.getElementById('week-tbl-body').innerHTML = '';
+  }
+  save();
+  closeResetModal();
+  renderAll();
+  toast(type === 'all' ? 'All data reset' : type === 'contacts' ? 'Contacts cleared' : 'Logs cleared');
+}
+// legacy alias
+function confirmReset() { openResetModal('all'); }
 
 // ────────────────────────────────────────────
 // INSTALL
@@ -1127,6 +1528,347 @@ document.addEventListener('touchmove', e => {
     if (!e.target.closest('.sheet-body')) e.preventDefault();
   }
 }, { passive: false });
+
+
+
+// ────────────────────────────────────────────
+// GOAL TRACKER
+// ────────────────────────────────────────────
+
+// Track which goals have already triggered a celebration this session
+// so we don't re-fire on every render
+const _celebratedGoals = new Set();
+
+function getWeekStart() {
+  const now = new Date();
+  const day = now.getDay(); // 0=Sun
+  const diff = (day === 0 ? -6 : 1 - day); // Monday as week start
+  const mon = new Date(now);
+  mon.setDate(now.getDate() + diff);
+  return mon.toISOString().slice(0,10);
+}
+
+function getMonthStart() {
+  const now = new Date();
+  return `${now.getFullYear()}-${String(now.getMonth()+1).padStart(2,'0')}-01`;
+}
+
+function renderGoals() {
+  const tgt = state.settings;
+  const tgtOutreach = tgt.tgtOutreach || 10;
+  const tgtCalls    = tgt.tgtCalls    || 3;
+  const tgtApps     = tgt.tgtApps     || 4;
+  const tgtMeetings = tgt.tgtMeetings || 2;
+  const tgtMonthOutreach = tgt.tgtMonthOutreach || (tgtOutreach * 20);
+
+  // Today sent (from daily logs)
+  const today = todayStr();
+  const todayLogs = state.dailyLogs.filter(l => l.date === today);
+  const todaySent = todayLogs.reduce((a,l) => a + (parseInt(l.sent)||0), 0);
+
+  // This week (Mon–Sun) from daily logs
+  const weekStart = getWeekStart();
+  const weekLogs = state.dailyLogs.filter(l => l.date >= weekStart);
+  const weekBooked = weekLogs.reduce((a,l) => a + (parseInt(l.booked)||0), 0);
+
+  // Meetings completed this week = contacts moved to completed-meeting or beyond this week
+  // We approximate using contacts whose lastContact is this week and status is past booked
+  const weekMeetings = state.contacts.filter(c =>
+    c.lastContact >= weekStart &&
+    ['completed-meeting','closing-meeting','deal-won'].includes(c.status)
+  ).length;
+
+  // This month
+  const monthStart = getMonthStart();
+  const monthWon = state.contacts.filter(c =>
+    c.status === 'deal-won' && c.lastContact >= monthStart
+  ).length;
+  const monthLogs = state.dailyLogs.filter(l => l.date >= monthStart);
+  const monthOutreach = monthLogs.reduce((a,l) => a + (parseInt(l.sent)||0), 0);
+
+  // Update targets from settings
+  setT('gd-sent-tgt',       tgtOutreach);
+  setT('gw-booked-tgt',     tgtCalls);
+  setT('gw-meetings-tgt',   tgtMeetings);
+  setT('gm-won-tgt',        tgtApps);
+  setT('gm-outreach-tgt',   tgtMonthOutreach);
+
+  // Update values
+  setT('gd-sent-val',       todaySent);
+  setT('gw-booked-val',     weekBooked);
+  setT('gw-meetings-val',   weekMeetings);
+  setT('gm-won-val',        monthWon);
+  setT('gm-outreach-val',   monthOutreach);
+
+  // Update bars
+  function setBar(id, val, tgt) {
+    const el = document.getElementById(id);
+    if (!el) return;
+    const pct = tgt > 0 ? Math.min(100, Math.round((val/tgt)*100)) : 0;
+    el.style.width = pct + '%';
+    if (pct >= 100) el.classList.add('done');
+    else el.classList.remove('done');
+  }
+
+  setBar('gd-sent-bar',       todaySent,    tgtOutreach);
+  setBar('gw-booked-bar',     weekBooked,   tgtCalls);
+  setBar('gw-meetings-bar',   weekMeetings, tgtMeetings);
+  setBar('gm-won-bar',        monthWon,     tgtApps);
+  setBar('gm-outreach-bar',   monthOutreach,tgtMonthOutreach);
+
+  // Celebrations — only fire once per session per goal
+  const goals = [
+    { key:'daily-outreach',  val:todaySent,    tgt:tgtOutreach,
+      icon:'🎯', title:'Daily Goal Crushed!',
+      sub:'You hit your outreach target for today. That consistency is what builds a business.',
+      stat: todaySent + ' sent today', period:'Daily' },
+    { key:'weekly-booked',   val:weekBooked,   tgt:tgtCalls,
+      icon:'📅', title:'Weekly Booking Goal Hit!',
+      sub:'You\'ve booked your target number of calls this week. That\'s pipeline being built.',
+      stat: weekBooked + ' calls booked', period:'This Week' },
+    { key:'weekly-meetings', val:weekMeetings, tgt:tgtMeetings,
+      icon:'🤝', title:'Meeting Goal Achieved!',
+      sub:'You completed your weekly meeting target. Every meeting is a family closer to being protected.',
+      stat: weekMeetings + ' meetings done', period:'This Week' },
+    { key:'monthly-won',     val:monthWon,     tgt:tgtApps,
+      icon:'🏆', title:'Monthly Deal Goal Hit!',
+      sub:'You hit your deal target this month. These are real families who are now protected because of you.',
+      stat: monthWon + ' deals won', period:'This Month' },
+    { key:'monthly-outreach',val:monthOutreach,tgt:tgtMonthOutreach,
+      icon:'🔥', title:'Monthly Outreach Goal!',
+      sub:'You\'ve sent your monthly outreach target. Your lead machine is running.',
+      stat: monthOutreach + ' outreach sent', period:'This Month' },
+  ];
+
+  for (const g of goals) {
+    if (g.val >= g.tgt && g.tgt > 0 && !_celebratedGoals.has(g.key)) {
+      _celebratedGoals.add(g.key);
+      showCelebration(g);
+      break; // show one at a time
+    }
+  }
+}
+
+function showCelebration(g) {
+  setT('cel-icon',  g.icon);
+  setT('cel-title', g.title);
+  setT('cel-sub',   g.sub);
+  setT('cel-stat',  g.stat);
+  setT('cel-stat-label', g.period);
+  document.getElementById('celebrate-overlay').classList.add('show');
+}
+
+function closeCelebration() {
+  document.getElementById('celebrate-overlay').classList.remove('show');
+}
+
+// ────────────────────────────────────────────
+// EMAIL SEQUENCES
+// ────────────────────────────────────────────
+
+let currentSeqSelection = null;
+
+function pickSeq(seq) {
+  currentSeqSelection = seq;
+  document.getElementById('seq-pick-a').classList.toggle('selected-a', seq === 'A');
+  document.getElementById('seq-pick-b').classList.toggle('selected-b', seq === 'B');
+  document.getElementById('seq-pick-none').style.display = seq ? 'none' : 'block';
+}
+
+// Days relative to sequence start on which emails are sent
+const SEQ_SCHEDULE = {
+  A: [0, 2, 5, 10, 15, 21, 30],
+  B: [0, 3, 7, 12, 18, 24, 30]
+};
+
+const EMAILS = {
+  A: [
+    {
+      id:'A0', day:0,
+      subject:'5 things to have ready — and one quick thing about my number',
+      preview:'Hey [First Name],\n\nReally looking forward to connecting with you.\n\nBefore we meet, I wanted to send two quick things that\'ll make our time together a lot more valuable.\n\n━━━━━━━━━━━━━━━━━━━━\n5 THINGS TO HAVE READY\n━━━━━━━━━━━━━━━━━━━━\n\n1. Your monthly take-home income — your actual after-tax number, not gross salary. Everything we build starts here.\n\n2. A rough list of monthly expenses — housing, groceries, transportation, subscriptions. It doesn\'t need to be perfect.\n\n3. Any existing coverage — group benefits, personal life or CI policies. Most people don\'t know exactly what they have. That\'s okay — we\'ll figure it out together.\n\n4. Your savings accounts — TFSA, RRSP, FHSA, and roughly what\'s in them.\n\n5. Your biggest financial concern right now — there\'s no wrong answer. Whatever keeps you up at night, bring it.\n\n━━━━━━━━━━━━━━━━━━━━\nONE QUICK THING\n━━━━━━━━━━━━━━━━━━━━\n\nThe call will come from my personal number — [Kyle\'s number]. Save it now so it doesn\'t get filtered when it rings.\n\nAnd when you save it — text me a quick "hey" so I know it landed on your end. I personally respond to every message. No AI drafts, no assistants, no bots. When you text that number, you\'re texting me directly.\n\nSee you soon,\nKyle\nEau Claire Partners · eauclairepartners.ca'
+    },
+    {
+      id:'A2', day:2,
+      subject:'The three accounts that most families open too late',
+      preview:'Hey [First Name],\n\nWhile you\'re getting ready for our call, I wanted to share something that\'s genuinely changed the financial picture for a lot of the families I work with.\n\nMost people save in the wrong places — not because they\'re not trying, but because nobody ever walked them through this.\n\n━━━━━━━━━━━━━━━━━━━━\nTHE FHSA — open this first\n━━━━━━━━━━━━━━━━━━━━\n\nThe FHSA is a hybrid account: contributions are tax-deductible like an RRSP, and withdrawals for a first home are completely tax-free like a TFSA.\n\n$8,000/year. $40,000 lifetime. If you haven\'t opened one yet, the best time was last year. The second best time is this week.\n\n━━━━━━━━━━━━━━━━━━━━\nTHE RRSP HOME BUYERS\' PLAN\n━━━━━━━━━━━━━━━━━━━━\n\nYou can withdraw up to $60,000 from your RRSP tax-free toward a home purchase. A couple can combine that to $120,000 — and the new insured mortgage cap of $1.5M means more properties now qualify than ever.\n\n━━━━━━━━━━━━━━━━━━━━\nTHE TFSA — your overflow vehicle\n━━━━━━━━━━━━━━━━━━━━\n\nOnce your FHSA and RRSP are working, every extra dollar goes here. It grows tax-sheltered so your savings aren\'t eroded by capital gains or interest income tax.\n\nThe strategy: stack all three. A couple using these properly can enter the market with up to $200,000 in tax-advantaged capital — without touching a regular savings account.\n\nWe\'ll walk through which of these applies to your situation on our call.\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'A5', day:5,
+      subject:'The financial risk almost nobody plans for — but should',
+      preview:'Hey [First Name],\n\nI want to talk to you about something that doesn\'t come up enough — and when it does, it\'s usually too late to do anything about it.\n\nMost people protect their life. Very few people protect their income while they\'re still alive.\n\n━━━━━━━━━━━━━━━━━━━━\nCRITICAL ILLNESS COVERAGE\n━━━━━━━━━━━━━━━━━━━━\n\nCritical illness insurance pays a one-time, tax-free lump sum after surviving a covered diagnosis for 30 days. No restrictions on how you use it — mortgage payments, private treatment, time off, whatever the moment demands.\n\nHere\'s what most people don\'t know:\n\nThe first heart attack is often survived. The second is frequently fatal — because people go back to the same job, the same commute, the same stress. A CI payout buys you time to actually recover. Not just survive.\n\nAnd here\'s the part that surprises people: many policies offer a full return of premium if you never make a claim. You\'re either protected — or you get every dollar back. That\'s a savings vehicle with a safety net built in.\n\nRecommended starting point for a family with a mortgage: $100,000 minimum. We\'ll look at what makes sense for your situation specifically.\n\nThis is one of the things we\'ll cover on our call — and honestly, it\'s usually the piece that changes how people think about everything else.\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'A10', day:10,
+      subject:'Your credit score — the two things that actually move it',
+      preview:'Hey [First Name],\n\nIf homeownership is on your radar — even a few years out — your credit score matters more than most people realize. And the good news is, improving it comes down to two things.\n\n━━━━━━━━━━━━━━━━━━━━\nMOVE 1: Never miss a payment (35% of your score)\n━━━━━━━━━━━━━━━━━━━━\n\nSet autopay on every account — credit cards, utilities, phone. One missed payment can drop a good score by 50–100 points. Autopay removes the human error entirely.\n\n━━━━━━━━━━━━━━━━━━━━\nMOVE 2: Keep balances under 10% of your limit (30% of your score)\n━━━━━━━━━━━━━━━━━━━━\n\nIf your limit is $5,000, carry less than $500 at any time. Pay twice a month if needed — or request a limit increase to lower utilization without spending less.\n\nOne more thing worth doing: check your report for errors. 26% of credit reports contain mistakes. A single incorrect delinquency can cost you 50+ points — and it\'s fully disputable.\n\nThis matters because when we look at your homeownership pathway together, your credit score determines your options, your rate, and your timeline. The sooner it\'s in shape, the more doors open.\n\nSee you on our call,\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'A15', day:15,
+      subject:'The four professionals every family needs — and how they work together',
+      preview:'Hey [First Name],\n\nOne of the things I believe most strongly in this work is that financial security isn\'t a solo build. It takes a small team — each person handling a different layer, and the best outcomes happen when they\'re actually talking to each other.\n\nHere\'s who belongs in your corner:\n\n🛡 Life Insurance Broker — Protects your income and your family. Life, critical illness, disability. This is the foundation everything else rests on.\n\n📈 Investment Broker — Grows your money in the right accounts: TFSA, RRSP, FHSA, RESP. Ensures your savings are working as hard as you are.\n\n🏠 Mortgage Broker — Shops rates across lenders on your behalf. The difference between a good and great mortgage is often tens of thousands over its lifetime.\n\n🔑 Real Estate Professional — Guides you through the market, negotiates on your behalf, and makes sure you buy at the right price in the right conditions.\n\nAt Eau Claire Partners, I work alongside trusted professionals in all four areas. When the time is right, I\'ll connect you with the right people for your situation — not just whoever is available.\n\nThis is part of what the LifeProof Family Blueprint is designed to do: make sure you\'re not navigating this alone, and that everyone on your team is working toward the same goal.\n\nLooking forward to our call.\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'A21', day:21,
+      subject:'The real reason I do this work',
+      preview:'Hey [First Name],\n\nBefore we connect, I wanted to share something personal.\n\nI became a financial advisor because of something that happened to me — not because I planned to be in this industry.\n\nI was denied life insurance because of a past health scare.\n\nAt the time, I thought insurance was something you just... got. Like a utility. I didn\'t know there was a criteria. I didn\'t know there were health questions, underwriting decisions, people who get declined. I thought it was available to anyone who wanted it.\n\nWhen I was denied, I realized there\'s probably a large portion of the world that doesn\'t know any of this — and they\'re going to find out the same way I did. At the worst possible moment.\n\nThat\'s when I understood that insurance isn\'t just about leaving something behind. It\'s also about protecting everything you\'ve built while you\'re still here — your mortgage, your family\'s daily life, your ability to recover from a diagnosis without losing everything financially while you\'re fighting for your life.\n\nI don\'t ever want to see someone\'s name on a GoFundMe to save their house after a diagnosis. That\'s not what\'s supposed to happen. And it doesn\'t have to.\n\nThat\'s why I built the LifeProof Family Blueprint. And it\'s why I take these conversations seriously.\n\nI\'m looking forward to meeting you properly on our call.\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'A30', day:30,
+      subject:'What you\'ve built — and one person who needs to know about it',
+      preview:'Hey [First Name],\n\nI wanted to take a moment to acknowledge where you\'ve gotten to.\n\nIn the last 30 days, you\'ve done something most people never do: you actually looked at your financial picture — your coverage, your savings accounts, your credit, your protection plan. You showed up and took it seriously.\n\nThat matters more than most people realize. The families that build real financial security aren\'t always the ones who make the most money. They\'re the ones who got clear and took action while they still could.\n\nHere\'s everything you now have access to through the LifeProof Family Blueprint:\n\n✅ A clear picture of where you stand financially\n✅ A protection plan for your family if something happened tomorrow\n✅ A strategy to build toward homeownership using FHSA, RRSP, and TFSA properly\n✅ A pathway to improve your credit and qualify for the best possible rate\n✅ A vetted team of professionals who work together — not in silos\n✅ A done-for-you application process, so nothing falls through the cracks\n✅ An annual review to make sure your coverage grows with your life\n\nThat\'s not a product. That\'s a system.\n\n━━━━━━━━━━━━━━━━━━━━\nONE THING I\'D ASK\n━━━━━━━━━━━━━━━━━━━━\n\nIf any part of this has been valuable to you — even just the information — I want to ask you directly:\n\nDo you know someone who needs this?\n\nAnother parent with a mortgage. A couple that just got engaged. A friend who\'s been putting off their coverage for "someday." Someone who\'d be devastated if their family had to start a GoFundMe.\n\nI don\'t need a sales lead. I need a human being who deserves the same clarity you have now.\n\nIf someone comes to mind, just reply to this email with their name. I\'ll take it from there — and I\'ll make sure they\'re looked after the same way you were.\n\nThank you for trusting me with this. It genuinely means something.\n\nKyle\nEau Claire Partners · eauclairepartners.ca'
+    }
+  ],
+  B: [
+    {
+      id:'B0', day:0,
+      subject:'Here\'s exactly how this works — no surprises',
+      preview:'Hey [First Name],\n\nI tried reaching you recently — no worries at all if life got busy.\n\nI wanted to send a quick note so you know exactly what this process looks like, in plain language, before we ever connect.\n\nA lot of people hesitate because they\'re not sure what they\'re walking into. So here it is:\n\n━━━━━━━━━━━━━━━━━━━━\nSTEP 1 — Intake & financial snapshot\n━━━━━━━━━━━━━━━━━━━━\n\nWe start with a short conversation to get a general picture of where you\'re at. Income, debts, credit profile, savings position, homeownership goals. Nothing invasive — just enough to understand your situation.\n\n━━━━━━━━━━━━━━━━━━━━\nSTEP 2 — Strategy & planning\n━━━━━━━━━━━━━━━━━━━━\n\nBased on what we learn, we figure out your realistic options. Whether you already qualify, whether a rent-to-own structure makes sense, what (if anything) needs to improve first.\n\n━━━━━━━━━━━━━━━━━━━━\nSTEP 3 — Coordinated team review\n━━━━━━━━━━━━━━━━━━━━\n\nWhere it makes sense, we bring in the right professionals — financial advisors, mortgage specialists, real estate experts — so you get a complete picture.\n\n━━━━━━━━━━━━━━━━━━━━\nSTEP 4 — Moving forward\n━━━━━━━━━━━━━━━━━━━━\n\nIf the information supports it, we walk through timelines, monthly affordability, and your next steps toward approval and property selection.\n\nThe first call is simply a discovery conversation. No commitment. No pressure. Just information.\n\nIf you\'d like to connect, you can book a time here: [booking link]\n\nIf now isn\'t the right time, that\'s completely fine. Keep us in mind.\n\nKyle\nEau Claire Partners · eauclairepartners.ca'
+    },
+    {
+      id:'B3', day:3,
+      subject:'The account most Canadian families open too late',
+      preview:'Hey [First Name],\n\nNo ask on this one — just something genuinely worth knowing.\n\nIf buying a home is on your radar — even 3–5 years from now — there\'s one account that most people find out about too late.\n\n━━━━━━━━━━━━━━━━━━━━\nTHE FHSA (First Home Savings Account)\n━━━━━━━━━━━━━━━━━━━━\n\nIt\'s a hybrid between an RRSP and a TFSA — and it\'s one of the most powerful savings tools the government has created in decades.\n\nHere\'s why it\'s unusual:\n• Your contributions are tax-deductible (like an RRSP)\n• Your withdrawals for a first home are completely tax-free (like a TFSA)\n• $8,000/year, up to $40,000 lifetime\n• Unused room carries forward\n\nA couple, both first-time buyers, can stack $80,000 in tax-advantaged savings in this account alone — before touching their RRSP Home Buyers\' Plan, which adds another $120,000.\n\nThe math: a couple using all three accounts (FHSA + HBP + TFSA overflow) can walk into the market with up to $200,000 in capital that\'s never been taxed.\n\nIf you haven\'t opened an FHSA yet, the best time was last year. The second best time is this week — because the contribution room starts the year you open it, not the year you contribute.\n\nThat\'s it. No ask. Just wanted you to have that.\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'B7', day:7,
+      subject:'Your group benefits aren\'t enough — here\'s the math',
+      preview:'Hey [First Name],\n\nI hear this a lot: "I\'ve got coverage through work, I\'m probably fine."\n\nI used to think that too. Here\'s what most group benefit plans actually cover — and don\'t.\n\n━━━━━━━━━━━━━━━━━━━━\nWHAT GROUP BENEFITS TYPICALLY COVER\n━━━━━━━━━━━━━━━━━━━━\n\n✅ Dental and vision (usually capped)\n✅ Paramedical services (limited)\n✅ Basic life insurance (usually 1–2x salary)\n✅ Short-term disability (60–70% income, 90–120 days)\n\n━━━━━━━━━━━━━━━━━━━━\nWHAT GROUP BENEFITS DON\'T COVER\n━━━━━━━━━━━━━━━━━━━━\n\n❌ Critical illness — a cancer diagnosis, heart attack, or stroke doesn\'t trigger disability. It triggers treatment bills.\n❌ Long-term inability to work in your specific occupation\n❌ Your mortgage if you die and your spouse can\'t cover it alone\n❌ Any of the above if you leave your job\n\nThat last one matters: your group coverage disappears the day your employment does. And if you develop a health condition while employed, you may not be able to get personal coverage at all afterward.\n\nThe families I work with aren\'t unprotected because they don\'t care. They\'re unprotected because nobody sat down with them and showed them the gap.\n\nThat\'s exactly what the LifeProof Family Blueprint is designed to do.\n\nIf you\'d like to see your specific gap, I\'m here: [booking link]\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'B12', day:12,
+      subject:'Two credit moves that take about 10 minutes',
+      preview:'Hey [First Name],\n\nThis one is genuinely actionable — two things you can do this week that directly improve your credit score.\n\n━━━━━━━━━━━━━━━━━━━━\nMOVE 1 — Set autopay on everything (35% of your score)\n━━━━━━━━━━━━━━━━━━━━\n\nPayment history is the single biggest factor in your credit score. One missed payment can drop a good score by 50–100 points. Autopay removes that risk entirely — on every account, not just credit cards.\n\n━━━━━━━━━━━━━━━━━━━━\nMOVE 2 — Get your balances under 10% of your limit (30% of your score)\n━━━━━━━━━━━━━━━━━━━━\n\nIf your credit card limit is $5,000, try to carry less than $500 at any point. Pay twice a month, or request a limit increase — either one reduces your utilization ratio without requiring you to spend less.\n\nBonus: check your report for errors. 26% of credit reports contain inaccuracies. A single incorrect delinquency can cost you 50+ points and is fully disputable.\n\nWhy this matters for you: your credit score determines what you qualify for, what rate you get, and how much house you can access. A 720 vs. a 650 can mean tens of thousands in interest over a mortgage term.\n\nNo ask — just wanted to make sure you have this.\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'B18', day:18,
+      subject:'Why I almost didn\'t become an advisor',
+      preview:'Hey [First Name],\n\nI want to share something personal.\n\nBefore I built any of this, I was just someone who thought insurance was something you automatically qualified for — like a bank account. You want it, you open it.\n\nThen I was denied.\n\nI had a past health scare. Nothing catastrophic — but enough to make me a risk on paper. The application came back declined, and I remember sitting with that for a while, thinking: I genuinely didn\'t know this could happen to me.\n\nThat moment changed how I understood everything. Insurance isn\'t just a product. It\'s a window that closes. The longer you wait, the smaller the window gets — and sometimes it closes entirely before you ever knew it existed.\n\nI also came to understand something about critical illness that almost nobody talks about:\n\nThe first heart attack is usually survived. The second is frequently fatal — because people go back to the same job, the same stress, the same pace. They survive the event and lose the war because they couldn\'t afford to slow down.\n\nA critical illness payout doesn\'t just help you survive. It gives you the financial room to actually recover.\n\nI share this not to scare you — but because I genuinely believe the families I work with deserve to know this before they need it, not after.\n\nIf any of this is landing, I\'m here when you\'re ready: [booking link]\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'B24', day:24,
+      subject:'What a financially protected family actually looks like',
+      preview:'Hey [First Name],\n\nI want to paint a picture for you.\n\nNot a worst-case scenario. The opposite.\n\nImagine a family — young kids, mortgage, one primary income. A few years ago, they sat down and actually looked at their situation. Not because something bad happened. Because they decided to get ahead of it.\n\nThey opened an FHSA and started stacking RRSP room.\n\nThey put critical illness coverage in place — $150,000. Cost them less per month than a streaming subscription.\n\nThey got their credit score above 740, locked in a good rate, and bought their first home.\n\nTwo years later, one of them gets a cancer diagnosis.\n\nHere\'s what happens in their story:\n\nThey file a CI claim. Thirty days after diagnosis confirmation, $150,000 lands in their account — tax-free. No restrictions. No approval process for how to use it.\n\nThey don\'t touch their mortgage. They don\'t start a GoFundMe. They don\'t send their spouse back to work while they\'re in treatment. They take the time to actually get better.\n\nThat\'s the LifeProof Family Blueprint. Not a product. A system designed so that a diagnosis never steals a single day that doesn\'t have to be stolen.\n\nIf you\'d like to build that system for your family, I\'m one conversation away: [booking link]\n\nKyle\nEau Claire Partners'
+    },
+    {
+      id:'B30', day:30,
+      subject:'This is the last one — and I want to leave you with something real',
+      preview:'Hey [First Name],\n\nThis is the last email in this sequence, and I want to be straightforward with you.\n\nOver the past 30 days I\'ve shared a lot — the FHSA strategy, critical illness coverage, credit score moves, the real gap in group benefits, my own story. I\'ve tried to make sure that even if we never connect, you walk away with something genuinely useful.\n\nI hope that\'s been true.\n\nIf the timing hasn\'t been right, that\'s completely okay. Life is busy. I get it.\n\nThe door stays open. If you ever want to sit down and look at your family\'s financial picture — really look at it — I\'m here. No pressure, no scripts, no rush. Just a real conversation about where you are and what\'s possible.\n\n━━━━━━━━━━━━━━━━━━━━\nONE THING I\'D ASK\n━━━━━━━━━━━━━━━━━━━━\n\nEven if this isn\'t the right moment for you personally — is there someone in your life who needs this conversation?\n\nAnother young family. A couple planning to buy. A friend who\'s been meaning to "look into their coverage" for the last three years. Someone who\'d be in real trouble if a diagnosis hit tomorrow.\n\nI don\'t need a warm introduction. I don\'t need a meeting set up. Just a name and a way to reach them — and I\'ll take care of the rest.\n\nIf someone comes to mind, just reply to this email. That\'s all it takes.\n\nThank you for reading. Genuinely.\n\nKyle\nEau Claire Partners · eauclairepartners.ca\n\nP.S. The offer is always there: [booking link]'
+    }
+  ]
+};
+
+function getContactDueEmails() {
+  const today = todayStr();
+  const tasks = [];
+
+  state.contacts.forEach(c => {
+    if (!c.sequence || !c.sequenceStart) return;
+    const emails = EMAILS[c.sequence];
+    if (!emails) return;
+    const schedule = SEQ_SCHEDULE[c.sequence];
+    const startDate = new Date(c.sequenceStart + 'T12:00:00');
+
+    emails.forEach((email, i) => {
+      const dueDate = new Date(startDate);
+      dueDate.setDate(dueDate.getDate() + schedule[i]);
+      const dueDateStr = dueDate.toISOString().slice(0,10);
+
+      // Show if due today or overdue (within 3 days) and not marked done
+      const daysDiff = Math.floor((new Date(today+'T12:00:00') - dueDate) / 86400000);
+      const isDone = (c.emailsDone || []).includes(email.id);
+
+      if (!isDone && daysDiff >= 0 && daysDiff <= 3) {
+        tasks.push({
+          contact: c,
+          email: email,
+          dueDate: dueDateStr,
+          overdue: daysDiff > 0,
+          daysDiff
+        });
+      }
+    });
+  });
+
+  // Sort: overdue first, then by contact name
+  tasks.sort((a,b) => b.daysDiff - a.daysDiff || a.contact.name.localeCompare(b.contact.name));
+  return tasks;
+}
+
+function renderEmailTasks() {
+  const tasks = getContactDueEmails();
+  const list = document.getElementById('email-tasks-list');
+  const section = document.getElementById('email-tasks-section');
+  if (!list) return;
+
+  if (tasks.length === 0) {
+    list.innerHTML = '<div class="seq-empty"><div class="seq-empty-icon">✉️</div>No emails due today. Add contacts with a sequence assigned to see tasks here.</div>';
+    return;
+  }
+
+  list.innerHTML = tasks.map(t => {
+    const overdueTxt = t.overdue ? ` · <span style="color:var(--red)">${t.daysDiff}d overdue</span>` : '';
+    const seqLabel = t.email.id.startsWith('A') ? 'Sequence A · Day ' + t.email.day : 'Sequence B · Day ' + t.email.day;
+    return `
+    <div class="seq-task-card" id="stc-${t.email.id}-${t.contact.id}">
+      <div class="seq-task-header">
+        <div>
+          <div class="seq-task-label">${seqLabel}${overdueTxt}</div>
+          <div class="seq-task-name">To: ${escHtml(t.contact.name)}</div>
+        </div>
+      </div>
+      <div class="seq-task-meta">📧 ${escHtml(t.email.subject)}</div>
+      <div class="seq-btn-row">
+        <button class="seq-btn seq-btn-sec" onclick="toggleEmailPreview('${t.email.id}','${t.contact.id}')">👁 Preview</button>
+        <button class="seq-btn seq-btn-pri" onclick="copyEmail('${t.email.id}','${t.contact.name}')">📋 Copy Email</button>
+        <button class="seq-btn seq-btn-done" onclick="markEmailDone('${t.contact.id}','${t.email.id}')">✓ Mark Sent</button>
+      </div>
+      <div class="seq-email-preview" id="sep-${t.email.id}-${t.contact.id}">${escHtml(personaliseEmail(t.email.preview, t.contact.name))}</div>
+    </div>
+    `;
+  }).join('');
+}
+
+function personaliseEmail(body, name) {
+  const firstName = name.split(' ')[0];
+  return body.replace(/\[First Name\]/g, firstName);
+}
+
+function toggleEmailPreview(emailId, contactId) {
+  const el = document.getElementById('sep-' + emailId + '-' + contactId);
+  if (el) el.classList.toggle('open');
+}
+
+function copyEmail(emailId, contactName) {
+  // Find the email across both sequences
+  const allEmails = [...EMAILS.A, ...EMAILS.B];
+  const email = allEmails.find(e => e.id === emailId);
+  if (!email) return;
+  const firstName = contactName.split(' ')[0];
+  const body = personaliseEmail(email.preview, contactName);
+  const full = 'Subject: ' + email.subject + '\n\n' + body;
+  if (navigator.clipboard) {
+    navigator.clipboard.writeText(full).then(() => toast('Email copied to clipboard ✓'));
+  } else {
+    // fallback
+    const ta = document.createElement('textarea');
+    ta.value = full; ta.style.position='fixed'; ta.style.opacity='0';
+    document.body.appendChild(ta); ta.select();
+    document.execCommand('copy'); document.body.removeChild(ta);
+    toast('Email copied ✓');
+  }
+}
+
+function markEmailDone(contactId, emailId) {
+  const c = state.contacts.find(x => String(x.id) === String(contactId));
+  if (!c) return;
+  if (!c.emailsDone) c.emailsDone = [];
+  if (!c.emailsDone.includes(emailId)) c.emailsDone.push(emailId);
+  save();
+  renderEmailTasks();
+  toast('Marked as sent ✓');
+}
+
 
 // ────────────────────────────────────────────
 // BOOT
